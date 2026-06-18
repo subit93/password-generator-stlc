@@ -19,7 +19,7 @@ const Presets = (() => {
     },
     banking: {
       label:            'Banking',
-      length:           20,
+      length:           16,
       include_uppercase: true,
       include_lowercase: true,
       include_numbers:   true,
@@ -44,7 +44,7 @@ const Presets = (() => {
       include_lowercase: true,
       include_numbers:   true,
       include_symbols:   true,
-      excludeAmbiguous:  false,
+      excludeAmbiguous:  true,
       requireEach:       true
     }
   };

@@ -45,7 +45,8 @@ Feature: Strength Meter — Entropy-Based Password Strength Indicator
   # TC-STR-07: Strength updates dynamically on config change
   @TC-STR-07
   Scenario: Strength meter updates when length slider is changed
-    Given the length slider is set to 8 (Weak)
+    Given the charset configuration is "lowercase only"
+    And the length slider is set to 8 (Weak)
     And the strength label shows "Weak"
     When the user moves the length slider to 32
     Then the strength label updates to "Strong" or "Very Strong" without regenerating
@@ -53,7 +54,7 @@ Feature: Strength Meter — Entropy-Based Password Strength Indicator
   # TC-STR-08: Strength updates when charset is toggled
   @TC-STR-08
   Scenario: Strength meter updates when character sets are toggled
-    Given only Lowercase is ON and length is 12 (Medium strength)
+    Given only Lowercase is ON and length is 14 (Medium strength)
     When the user turns ON all four character sets
     Then the strength label updates to "Strong" or "Very Strong"
     And the fill bar width increases

@@ -23,7 +23,11 @@ public class BulkPage extends BasePage {
         return getText(BULK_COUNT_DISPLAY);
     }
 
-    public void clickBulkGenerate() { click(BULK_GENERATE_BTN); }
+    public void clickBulkGenerate() {
+        // Button may be below the fold in headless mode; use JS click to bypass interactability check
+        ((org.openqa.selenium.JavascriptExecutor) driver)
+            .executeScript("arguments[0].click();", driver.findElement(BULK_GENERATE_BTN));
+    }
     public void clickBulkExport()   { click(BULK_EXPORT_BTN); }
     public void clickBulkClear()    { click(BULK_CLEAR_BTN); }
 
