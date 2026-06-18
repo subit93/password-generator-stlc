@@ -89,7 +89,7 @@ public class BulkSteps {
         Assert.assertEquals("Expected 0 passwords in bulk list", 0, page.getBulkPasswordCount());
     }
 
-    @Then("all {int} generated passwords contain only uppercase characters (A-Z)")
+    @Then("^all (\\d+) generated passwords contain only uppercase characters \\(A-Z\\)$")
     public void allBulkPasswordsUppercase(int count) {
         List<String> passwords = page.getBulkPasswordTexts();
         Assert.assertEquals("Bulk count mismatch", count, passwords.size());
@@ -109,7 +109,7 @@ public class BulkSteps {
         }
     }
 
-    @And("all {int} passwords in the list are unique (no duplicates)")
+    @And("^all (\\d+) passwords in the list are unique \\(no duplicates\\)$")
     public void allBulkPasswordsUnique(int count) {
         List<String> passwords = page.getBulkPasswordTexts();
         Assert.assertEquals("Bulk count mismatch", count, passwords.size());

@@ -36,7 +36,7 @@ public class PresetsSteps {
             actual >= minimum);
     }
 
-    @Then("all four character set toggles (Uppercase, Lowercase, Numbers, Symbols) are ON")
+    @Then("^all four character set toggles \\(Uppercase, Lowercase, Numbers, Symbols\\) are ON$")
     public void allFourTogglesOn() {
         Assert.assertTrue("Uppercase should be ON",  page.isUppercaseChecked());
         Assert.assertTrue("Lowercase should be ON",  page.isLowercaseChecked());
@@ -53,7 +53,7 @@ public class PresetsSteps {
         page.setSymbols(false);
     }
 
-    @Then("the UI updates immediately (no additional button press required)")
+    @Then("^the UI updates immediately \\(no additional button press required\\)$")
     public void uiUpdatesImmediately() {
         // Presets update the UI synchronously via JS event handlers; no extra action needed.
         // This step passes if the preceding preset click step succeeded.

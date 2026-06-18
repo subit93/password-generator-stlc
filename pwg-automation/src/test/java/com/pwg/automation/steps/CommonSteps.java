@@ -150,7 +150,7 @@ public class CommonSteps {
     }
 
     // ── Default settings ──────────────────────────────────────────
-    @Given("all default settings are applied (length=16, uppercase ON, lowercase ON, numbers ON, symbols OFF)")
+    @Given("^all default settings are applied \\(length=16, uppercase ON, lowercase ON, numbers ON, symbols OFF\\)$")
     public void applyDefaultSettings() {
         generatorPage.applyDefaultSettings();
     }

@@ -94,7 +94,7 @@ public class SecuritySteps {
                 title != null && title.contains("Password Generator"));
     }
 
-    @And("all tabs (Generator, Bulk, Passphrase, History) are accessible")
+    @And("^all tabs \\(Generator, Bulk, Passphrase, History\\) are accessible$")
     public void allTabsAccessible() {
         for (String tab : new String[]{"generator", "bulk", "passphrase", "history"}) {
             Assert.assertTrue("Tab should exist: " + tab,
@@ -110,13 +110,13 @@ public class SecuritySteps {
         Assert.assertFalse("Password should be generated offline", page.isPasswordTextEmpty());
     }
 
-    @Then("all resources (CSS, JS, fonts) are served from localhost")
+    @Then("^all resources \\(CSS, JS, fonts\\) are served from localhost$")
     public void allResourcesFromLocalhost() {
         // Verified by the network request log showing no external domain requests
         noExternalNetworkRequests();
     }
 
-    @And("no requests are made to any external domain (e.g., cdn.*, googleapis.*, etc.)")
+    @And("^no requests are made to any external domain \\(e.g., cdn.*, googleapis.*, etc.\\)$")
     public void noExternalDomainRequests() {
         noExternalNetworkRequests();
     }
@@ -175,13 +175,13 @@ public class SecuritySteps {
         // Source loaded on demand in Then steps
     }
 
-    @Then("no usage of deprecated crypto APIs (e.g., window.crypto.getRandomValues via ActiveX) is found")
+    @Then("^no usage of deprecated crypto APIs \\(e.g., window.crypto.getRandomValues via ActiveX\\) is found$")
     public void noDeprecatedCryptoApis() throws Exception {
         String source = fetchJsSource("/js/generator.js");
         Assert.assertFalse("No ActiveX crypto usage expected", source.contains("ActiveXObject"));
     }
 
-    @And("no eval() or innerHTML assignments with generated password content are present")
+    @And("^no eval\\(\\) or innerHTML assignments with generated password content are present$")
     public void noEvalOrInnerHtmlWithPassword() throws Exception {
         String source = fetchJsSource("/js/generator.js");
         Assert.assertFalse("No eval() expected in generator.js", source.contains("eval("));

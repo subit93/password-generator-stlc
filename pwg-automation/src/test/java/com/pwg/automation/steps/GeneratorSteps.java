@@ -48,7 +48,7 @@ public class GeneratorSteps {
     }
 
     // ── Character set assertions ──────────────────────────────────
-    @Then("the generated password contains only uppercase characters (A-Z)")
+    @Then("^the generated password contains only uppercase characters \\(A-Z\\)$")
     public void passwordOnlyUppercase() {
         String pwd = page.getPasswordText();
         ScenarioContext.set(KEY_PASSWORD, pwd);
@@ -56,7 +56,7 @@ public class GeneratorSteps {
                 pwd.chars().allMatch(c -> c >= 'A' && c <= 'Z'));
     }
 
-    @Then("the generated password contains only lowercase characters (a-z)")
+    @Then("^the generated password contains only lowercase characters \\(a-z\\)$")
     public void passwordOnlyLowercase() {
         String pwd = page.getPasswordText();
         ScenarioContext.set(KEY_PASSWORD, pwd);
@@ -64,7 +64,7 @@ public class GeneratorSteps {
                 pwd.chars().allMatch(c -> c >= 'a' && c <= 'z'));
     }
 
-    @Then("the generated password contains only numeric characters (0-9)")
+    @Then("^the generated password contains only numeric characters \\(0-9\\)$")
     public void passwordOnlyNumeric() {
         String pwd = page.getPasswordText();
         ScenarioContext.set(KEY_PASSWORD, pwd);
@@ -140,7 +140,7 @@ public class GeneratorSteps {
         ScenarioContext.set(KEY_PASSWORD, page.getPasswordText());
     }
 
-    @Given("the password is currently hidden (masked)")
+    @Given("^the password is currently hidden \\(masked\\)$")
     public void passwordCurrentlyHidden() {
         // Show/Hide toggles the blurred class; click once to hide if currently visible
         String text = page.getPasswordText();
@@ -148,7 +148,7 @@ public class GeneratorSteps {
         page.clickShowHide();
     }
 
-    @Then("the password text becomes visible (unmasked)")
+    @Then("^the password text becomes visible \\(unmasked\\)$")
     public void passwordVisible() {
         // The blurred CSS class is removed when visible; text is non-empty
         Assert.assertFalse("Password text should be visible (not empty)", page.isPasswordTextEmpty());

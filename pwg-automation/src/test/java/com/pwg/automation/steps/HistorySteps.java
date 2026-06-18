@@ -60,7 +60,7 @@ public class HistorySteps {
         }
     }
 
-    @And("entries are displayed in chronological order (most recent first or last)")
+    @And("^entries are displayed in chronological order \\(most recent first or last\\)$")
     public void entriesInChronologicalOrder() {
         Assert.assertTrue("History should have at least 1 entry",
                 historyPage.getHistoryItemCount() >= 1);
