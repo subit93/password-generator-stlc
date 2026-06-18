@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Generator</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app">
+
+    <header class="header">
+      <div class="header-icon">🔐</div>
+      <h1>Password Generator</h1>
+      <p class="subtitle">Secure &bull; Fully Offline &bull; Crypto-grade Random</p>
+    </header>
+
+    <div class="card">
+
+      <!-- ── TABS ── -->
+      <nav class="tabs" role="tablist">
+        <button class="tab active" data-tab="generator" role="tab" aria-selected="true">Generator</button>
+        <button class="tab"        data-tab="bulk"      role="tab" aria-selected="false">Bulk</button>
+        <button class="tab"        data-tab="passphrase"role="tab" aria-selected="false">Passphrase</button>
+        <button class="tab"        data-tab="history"   role="tab" aria-selected="false">History</button>
+      </nav>
+
+      <!-- ════════════════════════════════════════
+           GENERATOR TAB
+      ════════════════════════════════════════ -->
+      <section class="tab-panel active" id="tab-generator">
+
+        <!-- Presets -->
+        <div class="field-group">
+          <span class="field-label">Quick Presets</span>
+          <div class="preset-grid">
+            <button class="preset-btn" data-preset="social">Social</button>
+            <button class="preset-btn" data-preset="banking">Banking</button>
+            <button class="preset-btn" data-preset="work">Work</button>
+            <button class="preset-btn" data-preset="superSecure">Super Secure</button>
+          </div>
+        </div>
+
+        <!-- Length slider -->
+        <div class="field-group">
+          <div class="row-between">
+            <span class="field-label">Password Length</span>
+            <span class="badge" id="length-display">16</span>
+          </div>
+          <input type="range" id="length-slider" class="slider" min="8" max="64" value="16">
+          <div class="slider-ends"><span>8</span><span>64</span></div>
+          <div class="warning-box" id="short-warning">
+            ⚠️ Passwords shorter than 12 characters are considered weak. Use 16+ for best security.
+          </div>
+        </div>
+
+        <!-- Character set toggles -->
+        <div class="field-group">
+          <span class="field-label">Character Sets</span>
+          <div class="toggle-grid">
+            <label class="toggle-card" id="card-uppercase">
+              <input type="checkbox" id="inc-uppercase" checked>
+              <div class="toggle-inner">
+                <span class="toggle-check" aria-hidden="true">✓</span>
+                <span>Uppercase<br><small>A – Z</small></span>
+              </div>
+            </label>
+            <label class="toggle-card" id="card-lowercase">
+              <input type="checkbox" id="inc-lowercase" checked>
+              <div class="toggle-inner">
+                <span class="toggle-check" aria-hidden="true">✓</span>
+                <span>Lowercase<br><small>a – z</small></span>
+              </div>
+            </label>
+            <label class="toggle-card" id="card-numbers">
+              <input type="checkbox" id="inc-numbers" checked>
+              <div class="toggle-inner">
+                <span class="toggle-check" aria-hidden="true">✓</span>
+                <span>Numbers<br><small>0 – 9</small></span>
+              </div>
+            </label>
+            <label class="toggle-card" id="card-symbols">
+              <input type="checkbox" id="inc-symbols" checked>
+              <div class="toggle-inner">
+                <span class="toggle-check" aria-hidden="true">✓</span>
+                <span>Symbols<br><small>! @ # …</small></span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="field-group">
+          <span class="field-label">Options</span>
+          <div class="option-list">
+            <label class="option-row">
+              <input type="checkbox" id="excl-ambiguous">
+              <span>Exclude ambiguous characters&ensp;<code>O 0 l 1 I</code></span>
+            </label>
+            <label class="option-row">
+              <input type="checkbox" id="req-each" checked>
+              <span>Require at least one character from each selected set</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Strength bar + entropy -->
+        <div class="field-group">
+          <div class="strength-row">
+            <div class="strength-bar-wrap">
+              <div class="strength-bar-track">
+                <div class="strength-bar-fill" id="strength-fill"></div>
+              </div>
+            </div>
+            <div class="strength-meta">
+              <span class="strength-label" id="strength-label">—</span>
+              <span class="entropy-label"  id="entropy-label">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Password output -->
+        <div class="field-group">
+          <div class="output-box" id="output-box" title="Click anywhere to copy">
+            <span class="output-text placeholder" id="password-text">Click Generate to begin</span>
+            <button class="icon-btn" id="show-hide-btn" title="Show / Hide" aria-label="Toggle password visibility">
+              <span id="eye-icon">👁</span>
+            </button>
+          </div>
+          <div class="clear-countdown" id="clear-countdown"></div>
+        </div>
+
+        <!-- Actions -->
+        <div class="action-row">
+          <button class="btn btn-primary"   id="generate-btn">⚡ Generate</button>
+          <button class="btn btn-secondary" id="copy-btn"     disabled>📋 Copy</button>
+          <button class="btn btn-ghost"     id="regen-btn"    disabled>🔄 Regenerate</button>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════
+           BULK TAB
+      ════════════════════════════════════════ -->
+      <section class="tab-panel" id="tab-bulk">
+        <div class="field-group">
+          <div class="row-between">
+            <span class="field-label">Number of Passwords</span>
+            <span class="badge" id="bulk-count-display">10</span>
+          </div>
+          <input type="range" id="bulk-count" class="slider" min="5" max="20" value="10">
+          <div class="slider-ends"><span>5</span><span>20</span></div>
+          <p class="hint">Uses the same settings configured in the Generator tab.</p>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-primary"   id="bulk-generate-btn">⚡ Generate All</button>
+          <button class="btn btn-secondary" id="bulk-export-btn" disabled>⬇ Export .txt</button>
+          <button class="btn btn-ghost"     id="bulk-clear-btn"  disabled>🗑 Clear</button>
+        </div>
+        <div class="bulk-list" id="bulk-list"></div>
+      </section>
+
+      <!-- ════════════════════════════════════════
+           PASSPHRASE TAB
+      ════════════════════════════════════════ -->
+      <section class="tab-panel" id="tab-passphrase">
+        <div class="field-group">
+          <div class="row-between">
+            <span class="field-label">Number of Words</span>
+            <span class="badge" id="phrase-count-display">4</span>
+          </div>
+          <input type="range" id="phrase-count" class="slider" min="3" max="8" value="4">
+          <div class="slider-ends"><span>3</span><span>8</span></div>
+          <p class="hint">
+            Words are joined by hyphens — e.g.&ensp;<em>harvest-crystal-balance-echo</em>.
+            Easy to remember, hard to brute-force.
+          </p>
+        </div>
+        <div class="field-group">
+          <div class="output-box" id="phrase-output-box" title="Click anywhere to copy">
+            <span class="output-text placeholder" id="phrase-text">Click Generate to begin</span>
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-primary"   id="phrase-generate-btn">⚡ Generate Phrase</button>
+          <button class="btn btn-secondary" id="phrase-copy-btn" disabled>📋 Copy</button>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════
+           HISTORY TAB
+      ════════════════════════════════════════ -->
+      <section class="tab-panel" id="tab-history">
+        <div class="field-group">
+          <div class="row-between">
+            <span class="field-label">Recent Passwords — Session Only</span>
+            <button class="btn btn-ghost btn-sm" id="clear-history-btn">🗑 Clear All</button>
+          </div>
+          <p class="hint">
+            Stored in memory only. Cleared automatically when you close or refresh the tab.
+          </p>
+          <div class="history-list" id="history-list">
+            <p class="empty-msg">No passwords generated yet.</p>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /card -->
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  </div><!-- /app -->
+
+  <!-- JS modules — order matters: dependencies first, app last -->
+  <script src="js/generator.js"></script>
+  <script src="js/strength.js"></script>
+  <script src="js/presets.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
