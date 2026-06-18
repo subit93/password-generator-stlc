@@ -77,8 +77,8 @@ Open Copilot Chat and paste:
 | [KAN-31](https://subit93.atlassian.net/browse/KAN-31) | Scaffold Maven Test Project with pom.xml | ✅ Done |
 | [KAN-32](https://subit93.atlassian.net/browse/KAN-32) | Create Page Object Model (POM) Classes | ✅ Done |
 | [KAN-33](https://subit93.atlassian.net/browse/KAN-33) | Create Cucumber Test Runner & Step Definition Stubs | ✅ Done |
-| [KAN-34](https://subit93.atlassian.net/browse/KAN-34) | Install Jenkins LTS & Configure Global Tools | ⬜ Pending |
-| [KAN-35](https://subit93.atlassian.net/browse/KAN-35) | Create Jenkinsfile for CI/CD Pipeline | ⬜ Pending |
+| [KAN-34](https://subit93.atlassian.net/browse/KAN-34) | Install Jenkins LTS & Configure Global Tools | ✅ Done |
+| [KAN-35](https://subit93.atlassian.net/browse/KAN-35) | Create Jenkinsfile for CI/CD Pipeline | ✅ Done |
 | [KAN-36](https://subit93.atlassian.net/browse/KAN-36) | Smoke Test the Pipeline End-to-End | ⬜ Pending |
 | [KAN-37](https://subit93.atlassian.net/browse/KAN-37) | Test Environment Setup Review & Sign-off | ⬜ Pending |
 
@@ -89,6 +89,8 @@ Open Copilot Chat and paste:
 **KAN-31 completed:** 2026-06-18 — pom.xml already scaffolded with correct dependencies.
 **KAN-32 completed:** 2026-06-18 — Page Object classes created: BasePage, GeneratorPage, BulkPage, PassphrasePage, HistoryPage + ScenarioContext utility.
 **KAN-33 completed:** 2026-06-18 — 8 step definition classes created (CommonSteps, GeneratorSteps, BulkSteps, PassphraseSteps, HistorySteps, PresetsSteps, StrengthSteps, SecuritySteps). All 7 feature files linked to src/test/resources/features/. Compiles cleanly (mvn clean test-compile).
+**KAN-34 completed:** 2026-06-18 — Jenkins LTS WAR (95 MB) downloaded to C:\Jenkins\jenkins.war. Startup script at C:\Jenkins\start-jenkins.bat. Requires manual first-run setup via http://localhost:8080.
+**KAN-35 completed:** 2026-06-18 — Jenkinsfile created at pwg-automation/Jenkinsfile. Stages: Checkout → Build & Compile → Run Tests → Publish Reports (Cucumber + Extent) → Archive Artifacts. Parameters: BASE_URL, BROWSER.
 
 ---
 
@@ -110,7 +112,7 @@ Open Copilot Chat and paste:
 - Jenkins CI/CD (pipeline: Build → Test → Report → Archive) introduced in Phase 2 planning; setup in Phase 4; execution in Phase 5
 - KAN-9 to KAN-20 all assigned to account `5ee7620d7835b00abe6aa3a7`
 - **Rule:** This file must be updated every time a phase, task, or agent is created/updated
-- Last updated: 2026-06-18 — KAN-31/32/33 complete: pom.xml scaffold done; 5 POM classes + ScenarioContext created; 8 step def classes + 7 feature files linked; compiles cleanly; next: KAN-34 (Jenkins LTS install)
+- Last updated: 2026-06-18 — KAN-34/35 complete: Jenkins LTS WAR downloaded to C:\Jenkins; Jenkinsfile created with 5-stage pipeline; next: KAN-36 (smoke test pipeline)
 
 ---
 

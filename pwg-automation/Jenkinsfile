@@ -1,0 +1,115 @@
+// KAN-35 — Jenkinsfile
+// Pipeline: Build → Test → Report → Archive
+// Project:  PWG Password Generator — Automation Test Suite
+// Branch:   feature/stlc-phase3
+
+pipeline {
+
+    agent any
+
+    // ── Tool aliases (must match Jenkins Global Tool Configuration names) ──
+    tools {
+        jdk   'JDK-21'
+        maven 'Maven-3.9'
+    }
+
+    // ── Parameters — override at run time if needed ──────────────
+    parameters {
+        string(name: 'BASE_URL', defaultValue: 'http://localhost:3000',
+               description: 'URL of the running Password Generator app')
+        choice(name: 'BROWSER',  choices: ['chrome-headless', 'chrome', 'firefox'],
+               description: 'Browser to run tests against')
+    }
+
+    // ── Environment ───────────────────────────────────────────────
+    environment {
+        MAVEN_OPTS = '-Xmx512m'
+        REPORTS_DIR = 'pwg-automation/target'
+    }
+
+    // ── Pipeline stages ───────────────────────────────────────────
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+                echo "Branch: ${env.BRANCH_NAME ?: 'feature/stlc-phase3'}"
+            }
+        }
+
+        stage('Build & Compile') {
+            steps {
+                dir('pwg-automation') {
+                    sh 'mvn clean test-compile -q'
+                }
+            }
+            post {
+                failure {
+                    echo 'Compilation failed — check pom.xml and source files.'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                dir('pwg-automation') {
+                    sh """
+                        mvn clean test \
+                            -Dbrowser=${params.BROWSER} \
+                            -DbaseUrl=${params.BASE_URL} \
+                            -Dmaven.test.failure.ignore=true
+                    """
+                }
+            }
+        }
+
+        stage('Publish Reports') {
+            steps {
+                // Cucumber JSON → HTML report
+                cucumber(
+                    fileIncludePattern: '**/cucumber-reports/cucumber.json',
+                    jsonReportDirectory: "${REPORTS_DIR}/cucumber-reports",
+                    reportTitle: 'PWG Cucumber Report',
+                    buildStatus: 'UNSTABLE'
+                )
+
+                // Extent HTML report
+                publishHTML(target: [
+                    allowMissing:         false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll:              true,
+                    reportDir:            "${REPORTS_DIR}/extent-reports",
+                    reportFiles:          'PWGTestReport.html',
+                    reportName:           'PWG Extent Report'
+                ])
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts(
+                    artifacts: 'pwg-automation/target/cucumber-reports/**,' +
+                               'pwg-automation/target/extent-reports/**',
+                    fingerprint: true,
+                    allowEmptyArchive: true
+                )
+            }
+        }
+    }
+
+    // ── Post-pipeline notifications ───────────────────────────────
+    post {
+        always {
+            echo "Pipeline finished — Status: ${currentBuild.currentResult}"
+        }
+        success {
+            echo 'All stages passed. Test reports published.'
+        }
+        unstable {
+            echo 'Tests ran but some scenarios failed — check Cucumber report.'
+        }
+        failure {
+            echo 'Pipeline failed — check build logs.'
+        }
+    }
+}
