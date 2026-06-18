@@ -20,7 +20,7 @@ Open Copilot Chat and paste:
 | Phase 1 | Requirement Analysis | ✅ Done | [KAN-10](https://subit93.atlassian.net/browse/KAN-10), [KAN-11](https://subit93.atlassian.net/browse/KAN-11), [KAN-12](https://subit93.atlassian.net/browse/KAN-12), [KAN-13](https://subit93.atlassian.net/browse/KAN-13), [KAN-14](https://subit93.atlassian.net/browse/KAN-14) |
 | Phase 2 | Test Planning | ✅ Done | [KAN-15](https://subit93.atlassian.net/browse/KAN-15), [KAN-16](https://subit93.atlassian.net/browse/KAN-16), [KAN-17](https://subit93.atlassian.net/browse/KAN-17), [KAN-18](https://subit93.atlassian.net/browse/KAN-18), [KAN-19](https://subit93.atlassian.net/browse/KAN-19), [KAN-20](https://subit93.atlassian.net/browse/KAN-20) |
 | Phase 3 | Test Case Design | ✅ Done | [KAN-21](https://subit93.atlassian.net/browse/KAN-21), [KAN-22](https://subit93.atlassian.net/browse/KAN-22), [KAN-23](https://subit93.atlassian.net/browse/KAN-23), [KAN-24](https://subit93.atlassian.net/browse/KAN-24), [KAN-25](https://subit93.atlassian.net/browse/KAN-25), [KAN-26](https://subit93.atlassian.net/browse/KAN-26), [KAN-27](https://subit93.atlassian.net/browse/KAN-27), [KAN-28](https://subit93.atlassian.net/browse/KAN-28), [KAN-29](https://subit93.atlassian.net/browse/KAN-29) |
-| Phase 4 | Test Environment Setup | ⬜ Pending | Not started |
+| Phase 4 | Test Environment Setup | 🔄 In Progress | [KAN-30](https://subit93.atlassian.net/browse/KAN-30), [KAN-31](https://subit93.atlassian.net/browse/KAN-31), [KAN-32](https://subit93.atlassian.net/browse/KAN-32), [KAN-33](https://subit93.atlassian.net/browse/KAN-33), [KAN-34](https://subit93.atlassian.net/browse/KAN-34), [KAN-35](https://subit93.atlassian.net/browse/KAN-35), [KAN-36](https://subit93.atlassian.net/browse/KAN-36), [KAN-37](https://subit93.atlassian.net/browse/KAN-37) |
 | Phase 5 | Automation Test Execution | ⬜ Pending | Not started |
 | Phase 6 | Test Cycle Closure | ⬜ Pending | Not started |
 
@@ -70,10 +70,25 @@ Open Copilot Chat and paste:
 
 ---
 
-## Phase 4 Plan — Test Environment Setup ⬜ (NEXT)
-To be started after Phase 3 sign-off (KAN-29).
+## Phase 4 Detail — Test Environment Setup 🔄 In Progress
+| Key | Summary | Status |
+|-----|---------|--------|
+| [KAN-30](https://subit93.atlassian.net/browse/KAN-30) | Verify Java & Maven Installation | ✅ Done |
+| [KAN-31](https://subit93.atlassian.net/browse/KAN-31) | Scaffold Maven Test Project with pom.xml | ✅ Done |
+| [KAN-32](https://subit93.atlassian.net/browse/KAN-32) | Create Page Object Model (POM) Classes | ✅ Done |
+| [KAN-33](https://subit93.atlassian.net/browse/KAN-33) | Create Cucumber Test Runner & Step Definition Stubs | ✅ Done |
+| [KAN-34](https://subit93.atlassian.net/browse/KAN-34) | Install Jenkins LTS & Configure Global Tools | ⬜ Pending |
+| [KAN-35](https://subit93.atlassian.net/browse/KAN-35) | Create Jenkinsfile for CI/CD Pipeline | ⬜ Pending |
+| [KAN-36](https://subit93.atlassian.net/browse/KAN-36) | Smoke Test the Pipeline End-to-End | ⬜ Pending |
+| [KAN-37](https://subit93.atlassian.net/browse/KAN-37) | Test Environment Setup Review & Sign-off | ⬜ Pending |
 
-**To create:** Tell Copilot — *"Create Phase 4 Test Environment Setup tasks in Jira under KAN-9"*
+**Stack:** Java 21.0.9 (Eclipse Temurin) + Maven 3.9.16 + Selenium 4.x + WebDriverManager + Cucumber 7 + ExtentReports 5 + Jenkins LTS
+**Maven project location:** `pwg-automation/` at workspace root
+**Jira tasks created:** 2026-06-18 — All assigned to `5ee7620d7835b00abe6aa3a7`
+**KAN-30 completed:** 2026-06-18 — Java 21.0.9 (Eclipse Adoptium Temurin), Maven 3.9.16 verified. JAVA_HOME set permanently.
+**KAN-31 completed:** 2026-06-18 — pom.xml already scaffolded with correct dependencies.
+**KAN-32 completed:** 2026-06-18 — Page Object classes created: BasePage, GeneratorPage, BulkPage, PassphrasePage, HistoryPage + ScenarioContext utility.
+**KAN-33 completed:** 2026-06-18 — 8 step definition classes created (CommonSteps, GeneratorSteps, BulkSteps, PassphraseSteps, HistorySteps, PresetsSteps, StrengthSteps, SecuritySteps). All 7 feature files linked to src/test/resources/features/. Compiles cleanly (mvn clean test-compile).
 
 ---
 
@@ -84,6 +99,7 @@ To be started after Phase 3 sign-off (KAN-29).
 | [jira-phase1-stories.agent.md](agents/jira-phase1-stories.agent.md) | Creates Phase 1 tasks |
 | [jira-phase2-stories.agent.md](agents/jira-phase2-stories.agent.md) | Creates Phase 2 tasks (Given/When/Then format, includes Jenkins CI/CD planning) |
 | [jira-phase3-stories.agent.md](agents/jira-phase3-stories.agent.md) | Creates Phase 3 tasks (9 tasks: 7 feature files + RTM + sign-off) |
+| [jira-phase4-stories.agent.md](agents/jira-phase4-stories.agent.md) | Creates Phase 4 tasks (8 tasks: env setup, Maven scaffold, POM, Cucumber, Jenkins, Jenkinsfile, smoke test, sign-off) |
 
 ---
 
@@ -94,7 +110,7 @@ To be started after Phase 3 sign-off (KAN-29).
 - Jenkins CI/CD (pipeline: Build → Test → Report → Archive) introduced in Phase 2 planning; setup in Phase 4; execution in Phase 5
 - KAN-9 to KAN-20 all assigned to account `5ee7620d7835b00abe6aa3a7`
 - **Rule:** This file must be updated every time a phase, task, or agent is created/updated
-- Last updated: 2026-06-18 — Phase 3 all deliverables created, marked Done (55 Gherkin scenarios, 7 feature files, RTM)
+- Last updated: 2026-06-18 — KAN-31/32/33 complete: pom.xml scaffold done; 5 POM classes + ScenarioContext created; 8 step def classes + 7 feature files linked; compiles cleanly; next: KAN-34 (Jenkins LTS install)
 
 ---
 
