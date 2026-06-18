@@ -17,8 +17,6 @@ pipeline {
     parameters {
         string(name: 'BASE_URL', defaultValue: 'http://localhost:3000',
                description: 'URL of the running Password Generator app')
-        choice(name: 'BROWSER',  choices: ['edge-headless', 'chrome-headless', 'chrome', 'edge', 'firefox'],
-               description: 'Browser to run tests against')
     }
 
     // ── Environment ───────────────────────────────────────────────
@@ -55,7 +53,7 @@ pipeline {
                 dir('pwg-automation') {
                     sh """
                         mvn clean test \
-                            -Dbrowser=${params.BROWSER} \
+                            -Dbrowser=edge-headless \\
                             -DbaseUrl=${params.BASE_URL} \
                             -Dmaven.test.failure.ignore=true
                     """
