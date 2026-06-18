@@ -4,6 +4,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
@@ -23,6 +25,17 @@ public class DriverManager {
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
                 webDriver = new FirefoxDriver();
+                break;
+            case "edge":
+                WebDriverManager.edgedriver().setup();
+                webDriver = new EdgeDriver();
+                break;
+            case "edge-headless":
+                WebDriverManager.edgedriver().setup();
+                EdgeOptions edgeHeadlessOptions = new EdgeOptions();
+                edgeHeadlessOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+                edgeHeadlessOptions.setBinary("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe");
+                webDriver = new EdgeDriver(edgeHeadlessOptions);
                 break;
             case "chrome-headless":
                 WebDriverManager.chromedriver().setup();

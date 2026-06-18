@@ -17,7 +17,7 @@ pipeline {
     parameters {
         string(name: 'BASE_URL', defaultValue: 'http://localhost:3000',
                description: 'URL of the running Password Generator app')
-        choice(name: 'BROWSER',  choices: ['chrome-headless', 'chrome', 'firefox'],
+        choice(name: 'BROWSER',  choices: ['edge-headless', 'chrome-headless', 'chrome', 'edge', 'firefox'],
                description: 'Browser to run tests against')
     }
 
