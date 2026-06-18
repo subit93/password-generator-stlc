@@ -40,7 +40,8 @@ public class BasePage {
     protected void setCheckbox(By locator, boolean checked) {
         WebElement el = driver.findElement(locator);
         if (el.isSelected() != checked) {
-            el.click();
+            // Checkboxes are visually hidden via CSS; use JS click to bypass interactability check
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
         }
     }
 

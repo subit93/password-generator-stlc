@@ -77,6 +77,11 @@ public class PassphraseSteps {
         Assert.assertFalse("Passphrase text should not be empty", page.isPhraseTextEmpty());
     }
 
+    @Given("the user has already generated a passphrase")
+    public void userHasAlreadyGeneratedPassphrase() {
+        page.clickGeneratePhrase();
+    }
+
     @And("the first passphrase is recorded")
     public void recordFirstPassphrase() {
         ScenarioContext.set(KEY_FIRST_PHRASE, page.getPhraseText());

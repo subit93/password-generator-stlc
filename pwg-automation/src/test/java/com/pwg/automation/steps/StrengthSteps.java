@@ -94,6 +94,11 @@ public class StrengthSteps {
         Assert.assertTrue("Fill bar width should be > 50% for strong config", width > 50.0);
     }
 
+    @Given("all four character sets are ON")
+    public void allFourCharacterSetsOn() {
+        page.setAllCharacterSetsOn();
+    }
+
     @Then("^an entropy value in bits is displayed in the UI \\(entropy label is visible and non-zero\\)$")
     public void entropyValueDisplayed() {
         String entropy = page.getEntropyLabel();

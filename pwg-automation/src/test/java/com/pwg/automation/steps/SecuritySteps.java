@@ -80,6 +80,17 @@ public class SecuritySteps {
         noExternalNetworkRequests();
     }
 
+    @When("the user navigates to {string}")
+    public void userNavigatesTo(String url) {
+        DriverManager.getDriver().get(url);
+    }
+
+    @When("the page fully loads")
+    public void pageFullyLoads() {
+        new org.openqa.selenium.support.ui.WebDriverWait(DriverManager.getDriver(), java.time.Duration.ofSeconds(10))
+                .until(org.openqa.selenium.support.ui.ExpectedConditions.titleContains("Password Generator"));
+    }
+
     @Given("the browser is set to offline mode")
     public void setBrowserOffline() {
         ((JavascriptExecutor) DriverManager.getDriver()).executeScript(

@@ -126,8 +126,9 @@ public class CommonSteps {
         generatorPage.setLength(length);
     }
 
-    // Variant with label in parens, e.g. "the length slider is set to 8 (Weak)"
-    @Given("^the length slider is set to (\\d+) \\(\\w+\\)$")
+    // Variant with explicit strength label, e.g. "the length slider is set to 8 (Weak)"
+    // Restricted to known strength labels to avoid ambiguity with PresetsSteps "(approximately)"
+    @Given("^the length slider is set to (\\d+) \\((Weak|Medium|Strong|Very Strong)\\)$")
     public void setLengthSliderWithLabel(int length) {
         generatorPage.setLength(length);
     }
