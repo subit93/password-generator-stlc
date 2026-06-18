@@ -8,6 +8,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.io.File;
+
 /**
  * Manages WebDriver lifecycle — creation, retrieval, and teardown.
  * Uses WebDriverManager to automatically resolve browser drivers.
@@ -38,10 +40,20 @@ public class DriverManager {
                 webDriver = new EdgeDriver(edgeHeadlessOptions);
                 break;
             case "chrome-headless":
-                WebDriverManager.chromedriver().setup();
-                ChromeOptions headlessOptions = new ChromeOptions();
-                headlessOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
-                webDriver = new ChromeDriver(headlessOptions);
+                if (isChromeAvailable()) {
+                    WebDriverManager.chromedriver().setup();
+                    ChromeOptions headlessOptions = new ChromeOptions();
+                    headlessOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+                    webDriver = new ChromeDriver(headlessOptions);
+                } else {
+                    // Chrome not found — fall back to Edge headless (available on Windows by default)
+                    System.out.println("[DriverManager] Chrome not found, falling back to Edge headless");
+                    WebDriverManager.edgedriver().setup();
+                    EdgeOptions fallbackOptions = new EdgeOptions();
+                    fallbackOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+                    fallbackOptions.setBinary("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe");
+                    webDriver = new EdgeDriver(fallbackOptions);
+                }
                 break;
             default:
                 WebDriverManager.chromedriver().setup();
@@ -60,6 +72,25 @@ public class DriverManager {
         if (driver.get() != null) {
             driver.get().quit();
             driver.remove();
+        }
+    }
+
+    private static boolean isChromeAvailable() {
+        String[] chromePaths = {
+            "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+            System.getenv("LOCALAPPDATA") != null
+                ? System.getenv("LOCALAPPDATA") + "\\Google\\Chrome\\Application\\chrome.exe" : ""
+        };
+        for (String path : chromePaths) {
+            if (!path.isEmpty() && new File(path).exists()) return true;
+        }
+        // Also check if chrome is on PATH
+        try {
+            Process p = Runtime.getRuntime().exec(new String[]{"where", "chrome"});
+            return p.waitFor() == 0;
+        } catch (Exception e) {
+            return false;
         }
     }
 }
