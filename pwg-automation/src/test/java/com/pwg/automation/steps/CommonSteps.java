@@ -114,10 +114,8 @@ public class CommonSteps {
 
     @And("all other character set toggles are OFF")
     public void allOtherToggleOff() {
-        // Called after one toggle is already set ON; turn off the rest
-        // Implementation relies on preceding steps having set the ON toggle
-        // Safest: turn all OFF then the step context will re-enable the desired one
-        generatorPage.setUppercase(false);
+        // "all other" means: leave uppercase alone (set ON by the preceding step)
+        // and turn off the remaining three sets
         generatorPage.setLowercase(false);
         generatorPage.setNumbers(false);
         generatorPage.setSymbols(false);
