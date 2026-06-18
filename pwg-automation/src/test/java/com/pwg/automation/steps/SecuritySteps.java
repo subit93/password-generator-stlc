@@ -18,7 +18,7 @@ public class SecuritySteps {
 
     private final GeneratorPage page = new GeneratorPage();
 
-    @Given("browser network monitoring is active (via browser devtools / WebDriver network interception)")
+    @Given("^browser network monitoring is active \\(via browser devtools / WebDriver network interception\\)$")
     public void networkMonitoringActive() {
         // Stub: CDP network monitoring set up in Phase 5 execution environment
         ((JavascriptExecutor) DriverManager.getDriver()).executeScript(
