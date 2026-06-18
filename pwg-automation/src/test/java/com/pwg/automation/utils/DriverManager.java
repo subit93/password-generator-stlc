@@ -1,13 +1,13 @@
 package com.pwg.automation.utils;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
 /**
  * Manages WebDriver lifecycle — creation, retrieval, and teardown.
- * Uses WebDriverManager to automatically resolve the Edge driver.
+ * Uses Selenium Manager (bundled with Selenium 4.6+) to resolve the Edge driver automatically.
+ * No external network calls or WebDriverManager dependency required.
  */
 public class DriverManager {
 
@@ -16,7 +16,7 @@ public class DriverManager {
     private DriverManager() {}
 
     public static void initDriver() {
-        WebDriverManager.edgedriver().avoidExternalConnections().setup();
+        // Selenium Manager (built into Selenium 4.6+) handles driver resolution automatically
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
         options.setBinary("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe");

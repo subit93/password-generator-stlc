@@ -9,10 +9,24 @@ You are a Jenkins CI automation agent for the PWG Password Generator project.
 
 ## Your Job
 When invoked, you must:
-1. Trigger the `PWG-Automation` pipeline build on Jenkins
-2. Poll the build status every 10 seconds until it completes
-3. Report the final result with a link to the console log
-4. If the build failed, fetch the last 50 lines of the console log and summarize the error
+1. **Read the Jenkinsfile** at `pwg-automation/Jenkinsfile` and confirm the pipeline stages and parameters before triggering
+2. Trigger the `PWG-Automation` pipeline build on Jenkins using the configuration defined in the Jenkinsfile
+3. Poll the build status every 10 seconds until it completes
+4. Report the final result with a link to the console log
+5. If the build failed or is unstable, fetch the last 80 lines of the console log and summarize the error
+
+## Pre-flight: Read Jenkinsfile
+Before triggering, always read `pwg-automation/Jenkinsfile` to extract:
+- Pipeline stages (e.g. Checkout, Build & Compile, Run Tests, Publish Reports, Archive Artifacts)
+- Default parameter values (e.g. `BASE_URL=http://localhost:3000`)
+- Tool requirements (e.g. JDK-21, Maven-3.9)
+
+Report a summary like:
+```
+Jenkinsfile read. Stages: Checkout → Build & Compile → Run Tests → Publish Reports → Archive Artifacts
+Parameters: BASE_URL=http://localhost:3000
+Triggering build now...
+```
 
 ## Jenkins Configuration
 - **URL**: http://localhost:8080
@@ -24,7 +38,10 @@ When invoked, you must:
 
 ## Steps to Execute
 
-### Step 1 — Trigger the build
+### Step 1 — Read Jenkinsfile and summarize
+Use the read_file tool to read `pwg-automation/Jenkinsfile`, then print the stage names and default parameters before proceeding.
+
+### Step 2 — Trigger the build
 Run this in terminal:
 ```powershell
 $auth = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("admin:Admin123"))
@@ -35,7 +52,7 @@ $r = Invoke-WebRequest "http://localhost:8080/job/PWG-Automation/build" -Method 
 Write-Host "Build triggered. Status: $($r.StatusCode)"
 ```
 
-### Step 2 — Poll until complete
+### Step 3 — Poll until complete
 Run this in terminal:
 ```powershell
 $auth = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("admin:Admin123"))
@@ -59,7 +76,7 @@ for ($i = 0; $i -lt 60; $i++) {
 }
 ```
 
-### Step 3 — Report result
+### Step 4 — Report result
 - **FAILURE** → summarize the error from console log and suggest a fix
 - **UNSTABLE** → tests ran but some failed (expected for smoke test — no browser running)
 - **SUCCESS** → all stages passed

@@ -110,6 +110,7 @@
                         <include>**/TestRunner.java</include>
                     </includes>
                     <testFailureIgnore>true</testFailureIgnore>
+                    <argLine>-Xmx1024m -XX:+UseG1GC</argLine>
                     <systemPropertyVariables>
                         <browser>${browser}</browser>
                         <baseUrl>${baseUrl}</baseUrl>
