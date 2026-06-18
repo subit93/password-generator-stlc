@@ -65,7 +65,7 @@ pipeline {
             steps {
                 // Cucumber JSON → HTML report
                 cucumber(
-                    fileIncludePattern: '**/cucumber-reports/cucumber.json',
+                    fileIncludePattern: '**/*.json',
                     jsonReportDirectory: "${REPORTS_DIR}/cucumber-reports",
                     reportTitle: 'PWG Cucumber Report',
                     buildStatus: 'UNSTABLE'
