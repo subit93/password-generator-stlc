@@ -16,7 +16,9 @@ public class DriverManager {
     private DriverManager() {}
 
     public static void initDriver() {
-        // Selenium Manager (built into Selenium 4.6+) handles driver resolution automatically
+        // Point directly to the local msedgedriver binary — avoids all CDN/network calls
+        System.setProperty("webdriver.edge.driver",
+                "C:\\Users\\subit_mishra\\Documents\\Tools\\driver\\msedgedriver.exe");
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
         options.setBinary("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe");
