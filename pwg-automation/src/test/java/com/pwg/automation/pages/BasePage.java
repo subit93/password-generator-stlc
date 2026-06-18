@@ -64,7 +64,7 @@ public class BasePage {
         }
     }
 
-    protected Object executeScript(String script, Object... args) {
+    public Object executeScript(String script, Object... args) {
         return ((JavascriptExecutor) driver).executeScript(script, args);
     }
 }
