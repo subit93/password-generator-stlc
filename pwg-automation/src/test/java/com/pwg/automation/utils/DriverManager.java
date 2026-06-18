@@ -16,7 +16,7 @@ public class DriverManager {
     private DriverManager() {}
 
     public static void initDriver() {
-        WebDriverManager.edgedriver().setup();
+        WebDriverManager.edgedriver().avoidExternalConnections().setup();
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
         options.setBinary("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe");
