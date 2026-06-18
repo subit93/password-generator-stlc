@@ -2,12 +2,14 @@ package com.pwg.automation.utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.edge.EdgeOptions;
+
+import java.io.File;
 
 /**
  * Manages WebDriver lifecycle — creation, retrieval, and teardown.
- * Uses Selenium Manager (bundled with Selenium 4.6+) to resolve the Edge driver automatically.
- * No external network calls or WebDriverManager dependency required.
+ * Uses EdgeDriverService with explicit driver path to bypass Selenium Manager entirely.
  */
 public class DriverManager {
 
@@ -16,13 +18,15 @@ public class DriverManager {
     private DriverManager() {}
 
     public static void initDriver() {
-        // Point directly to the local msedgedriver binary — avoids all CDN/network calls
-        System.setProperty("webdriver.edge.driver",
-                "C:\\Users\\subit_mishra\\Documents\\Tools\\driver\\msedgedriver.exe");
+        // Use EdgeDriverService directly — bypasses Selenium Manager and all CDN/network calls.
+        // Note: do NOT call options.setBinary() — that triggers Selenium Manager in Selenium 4.21+.
+        EdgeDriverService service = new EdgeDriverService.Builder()
+                .usingDriverExecutable(new File(
+                        "C:\\Users\\subit_mishra\\Documents\\Tools\\driver\\msedgedriver.exe"))
+                .build();
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
-        options.setBinary("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe");
-        WebDriver webDriver = new EdgeDriver(options);
+        WebDriver webDriver = new EdgeDriver(service, options);
         webDriver.manage().window().maximize();
         driver.set(webDriver);
     }
