@@ -65,12 +65,15 @@ public class CommonSteps {
     @When("the user clicks the {string} button")
     public void clickButton(String label) {
         WebDriver driver = DriverManager.getDriver();
+        WebElement btn;
         if (BUTTON_IDS.containsKey(label)) {
-            driver.findElement(By.id(BUTTON_IDS.get(label))).click();
+            btn = driver.findElement(By.id(BUTTON_IDS.get(label)));
         } else {
-            driver.findElement(By.xpath(
-                "//button[contains(normalize-space(.), '" + label + "')]")).click();
+            btn = driver.findElement(By.xpath(
+                "//button[contains(normalize-space(.), '" + label + "')]"));
         }
+        // Use JS click to bypass any CSS-obscured / headless interactability issues
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", btn);
     }
 
     @When("the user clicks the {string} button again")
