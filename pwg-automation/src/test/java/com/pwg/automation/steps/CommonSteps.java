@@ -139,6 +139,7 @@ public class CommonSteps {
     public void setLengthSliderGeneratorTab(int length) {
         generatorPage.clickTab("generator");
         generatorPage.setLength(length);
+        generatorPage.clickTab("bulk"); // return to Bulk tab so bulk panel is visible
     }
 
     // ── Options ───────────────────────────────────────────────────

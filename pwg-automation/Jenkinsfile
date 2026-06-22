@@ -1,4 +1,10 @@
 // KAN-35 — Jenkinsfile
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  STATUS: DORMANT — Parked for future use                    ║
+// ║  Jenkins CI is not active in the current phase.             ║
+// ║  Tests are run locally via: mvn clean test                  ║
+// ║  Reactivate when CI pipeline work resumes.                  ║
+// ╚══════════════════════════════════════════════════════════════╝
 // Pipeline: Build → Test → Report → Archive
 // Project:  PWG Password Generator — Automation Test Suite
 // Branch:   feature/stlc-phase3

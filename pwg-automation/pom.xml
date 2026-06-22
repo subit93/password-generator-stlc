@@ -114,6 +114,7 @@
                     <systemPropertyVariables>
                         <browser>${browser}</browser>
                         <baseUrl>${baseUrl}</baseUrl>
+                        <!-- user.dir is already set to project base by Maven; reports/ lives here -->
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

@@ -1,9 +1,9 @@
 ---
-name: Jira Phase 4 Stories Creator
-description: Use when creating Phase 4 Test Environment Setup stories under the PWG Epic in Jira. Triggers: create phase 4 stories, create test environment setup stories, setup phase 4, initialize phase 4.
+name: Jira EnvSetup
+description: Use when creating Phase 4 Test Environment Setup tasks in Jira. Triggers: create environment setup tasks, run EnvSetup, setup phase 4, initialize test environment.
 ---
 
-# Jira Phase 4 Stories Creator Agent
+# Jira EnvSetup Agent
 
 ## Purpose
 Creates all 8 Phase 4 (Test Environment Setup) tasks in Jira under Epic KAN-9 for the PWG Password Generator STLC project.

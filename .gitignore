@@ -9,3 +9,7 @@
 # OS
 .DS_Store
 Thumbs.db
+
+# Keep reports tracked — do NOT ignore them
+!pwg-automation/reports/
+!pwg-automation/reports/**

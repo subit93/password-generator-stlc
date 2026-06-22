@@ -1,6 +1,6 @@
 ---
 name: Jenkins Build Trigger
-description: Triggers the PWG-Automation Jenkins pipeline build and monitors it until completion. Use this whenever you need to run the CI pipeline.
+description: "[DORMANT — parked for future use] Triggers the PWG-Automation Jenkins pipeline build and monitors it until completion. Do NOT invoke this agent until Jenkins CI is reactivated."
 ---
 
 # Jenkins Build Trigger Agent
@@ -17,6 +17,43 @@ When invoked, you must:
 6. If the build failed or is unstable, fetch the last 80 lines of the console log and summarize the error
 
 ## Pre-flight Checklist (run IN ORDER before triggering)
+
+### Pre-flight Step 0 — Start Jenkins (ALWAYS run first)
+Before anything else, check if Jenkins is running and start it if not:
+```powershell
+$running = $false
+try {
+    $response = Invoke-WebRequest "http://localhost:8080" -UseBasicParsing -TimeoutSec 3 -ErrorAction Stop
+    $running = $true
+} catch {}
+
+if ($running) {
+    Write-Host "✔ Jenkins is already running at http://localhost:8080"
+} else {
+    Write-Host "Jenkins is not running. Starting Jenkins..."
+    Start-Process -FilePath "C:\Jenkins\start-jenkins.bat" -WindowStyle Normal
+    Write-Host "Waiting for Jenkins to start..."
+    $ready = $false
+    for ($i = 0; $i -lt 18; $i++) {
+        Start-Sleep 5
+        try {
+            Invoke-WebRequest "http://localhost:8080" -UseBasicParsing -TimeoutSec 3 -ErrorAction Stop | Out-Null
+            $ready = $true
+            break
+        } catch {}
+        Write-Host "  Still starting... ($([int](($i+1)*5))s)"
+    }
+    if ($ready) {
+        Write-Host "✔ Jenkins is up! Opening http://localhost:8080 ..."
+        Start-Process "http://localhost:8080"
+    } else {
+        Write-Host "✘ Jenkins did not start in 90 seconds. Check C:\Jenkins\start-jenkins.bat manually."
+        exit 1
+    }
+}
+```
+- If Jenkins was just started, allow 10–15 more seconds before proceeding to next step.
+- Jenkins Home: `C:\Jenkins` | WAR: `C:\Jenkins\jenkins.war` | Start script: `C:\Jenkins\start-jenkins.bat`
 
 ### Pre-flight Step A — Verify & push latest code
 Run in terminal:

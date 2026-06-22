@@ -1,6 +1,6 @@
 ---
-description: "Use when creating Phase 1 Requirement Analysis stories under the PWG Epic in Jira. Triggers: create phase 1 stories, create requirement analysis stories, setup phase 1, initialize phase 1."
-name: "Jira Phase 1 Stories Creator"
+description: "Use when creating Phase 1 Requirement Analysis stories in Jira. Triggers: create requirement analysis stories, run ReAnalyser, setup phase 1, initialize requirement analysis."
+name: "Jira ReAnalyser"
 tools: [mcp_jira/*]
 argument-hint: "Create Phase 1 Requirement Analysis stories under KAN-9"
 ---

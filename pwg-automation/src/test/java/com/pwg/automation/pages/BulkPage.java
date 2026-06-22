@@ -47,7 +47,15 @@ public class BulkPage extends BasePage {
 
     public List<String> getBulkPasswordTexts() {
         return getBulkItemTextElements().stream()
-                .map(WebElement::getText)
+                .map(el -> {
+                    String text = el.getText();
+                    if (text == null || text.isEmpty()) {
+                        // Fallback: use JS textContent for headless mode where getText() returns empty
+                        text = (String) ((org.openqa.selenium.JavascriptExecutor) driver)
+                                .executeScript("return arguments[0].textContent.trim();", el);
+                    }
+                    return text != null ? text : "";
+                })
                 .collect(java.util.stream.Collectors.toList());
     }
 }
