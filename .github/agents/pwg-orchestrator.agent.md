@@ -73,6 +73,22 @@ If ANY check fails → STOP, report what is missing, do not proceed.
 - Pass through: BaseUrl, Browser, Tags
 - Wait for: `EXECUTION_COMPLETE` signal with Total/Passed/Failed counts
 - Gate check: if `cucumber.json` not produced → STOP and report `EXECUTION_FAILED`
+- **App Lifecycle NOTE**: The Executor starts Node.js only if the app is not already running. After `EXECUTION_COMPLETE`, the Executor **automatically stops** the Node.js process it started. Proceed to STEP 3.5 to verify the cleanup.
+
+### STEP 3.5 — App Session Cleanup (always runs after Phase 5, even on failure)
+Verify the Node.js server is no longer running. Run this in terminal:
+```powershell
+$nodeProc = Get-Process -Name "node" -ErrorAction SilentlyContinue
+if ($nodeProc) {
+    Write-Host "Node.js still running — stopping now..."
+    Stop-Process -Name "node" -Force -ErrorAction SilentlyContinue
+    Write-Host "APP_SESSION_CLOSED: Node.js stopped by Orchestrator cleanup."
+} else {
+    Write-Host "APP_SESSION_WAS_CLEAN: Node.js already stopped by Executor."
+}
+```
+- Log either `APP_SESSION_CLOSED` or `APP_SESSION_WAS_CLEAN` in the final summary
+- This step is **mandatory** — run it even if Phase 5 returned failures
 
 ### STEP 4 — Defect Triage (only if failures > 0)
 **Hand-off to:** `PWG Defect Triage` agent
@@ -98,6 +114,8 @@ After all agents complete, produce this exact output:
 ║  Phase 5 — Test Execution     : [COMPLETE / FAILED]     ║
 ║  Phase 5b— Defect Triage      : [X bugs filed / NONE]   ║
 ║  Phase 6 — Report Generated   : [YES / NO]              ║
+║  App Session               : [CLOSED / WAS_CLEAN]       ║
+║  Walkthrough Updated       : [YES / NO]                  ║
 ╠══════════════════════════════════════════════════════════╣
 ║  Total Scenarios : XX                                   ║
 ║  Passed          : XX  ✅                               ║
@@ -110,6 +128,31 @@ After all agents complete, produce this exact output:
 [AI narrative: 2-3 sentences explaining what passed, what failed, and recommended next action]
 ```
 
+### STEP 7 — Update POC_STLC_Walkthrough.feature
+After Phase 6 report is produced, update the living walkthrough document with the latest run stats.
+Run in terminal:
+```powershell
+$walkthroughFile = "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\POC_STLC_Walkthrough.feature"
+if (Select-String -Path $walkthroughFile -Pattern "<<LAST_RUN_START>>" -Quiet) {
+    Write-Host "WALKTHROUGH_UPDATED: POC_STLC_Walkthrough.feature has been refreshed by run-tests.ps1."
+} else {
+    Write-Host "WALKTHROUGH_NOT_UPDATED: LAST_RUN block not found — run-tests.ps1 may not have completed Step 8."
+}
+```
+- If `WALKTHROUGH_NOT_UPDATED`: read `cucumber.json` counts and manually inject the `<<LAST_RUN_START>>` / `<<LAST_RUN_END>>` block into the feature file as described below:
+  ```
+  # <<LAST_RUN_START>>
+  # ┌──────────────────────────────────────────────────────────────────────────────┐
+  # │  LAST RUN STATS (auto-updated after every pipeline execution)                │
+  # │  Run #   : <run_count>                                                       │
+  # │  Date    : <dd-MM-yyyy HH:mm>                                                │
+  # │  Total   : <total>    Passed : <passed>    Failed : <failed>    Skipped : <skipped> │
+  # │  Report  : <relative report path>                                            │
+  # └──────────────────────────────────────────────────────────────────────────────┘
+  # <<LAST_RUN_END>>
+  ```
+- This keeps the walkthrough document as a **living record** of the project's test health
+
 ---
 
 ## Constraints
@@ -118,5 +161,7 @@ After all agents complete, produce this exact output:
 - DO NOT run Phase 5 if pre-flight checks fail
 - DO NOT file Jira bugs unless there are actual failures from cucumber.json
 - DO NOT fabricate test results — read only from actual `cucumber.json` output
+- ALWAYS run STEP 3.5 (App Session Cleanup) even if Phase 5 fails — never leave the server running
+- ALWAYS run STEP 7 (Walkthrough Update) to keep the feature file current
 - ALWAYS update the todo list as each phase completes
 - If a specialist agent is unavailable, note it in the summary and continue where possible

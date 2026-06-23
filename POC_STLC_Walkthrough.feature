@@ -4,6 +4,16 @@
 # ║         Audience: Layman / Non-Technical Reviewers                          ║
 # ║         Written in: Gherkin (Plain English test language)                   ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# <<LAST_RUN_START>>
+# +------------------------------------------------------------------------------+
+# |  LAST RUN STATS  (auto-updated by run-tests.ps1 after every pipeline run)    |
+# |  Run #   : 1                                                                 |
+# |  Date    : 23-06-2026 11:30                                                  |
+# |  Result  : PASS  |  Total : 138  |  Passed : 138  |  Failed : 0  |  Skipped : 0 |
+# |  Report  : pwg-automation\reports\run_23-06-2026_11-28\PWGTestReport.html   |
+# +------------------------------------------------------------------------------+
+# <<LAST_RUN_END>>
 #
 # What is Gherkin?
 # ─────────────────

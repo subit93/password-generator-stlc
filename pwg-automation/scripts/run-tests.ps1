@@ -143,5 +143,49 @@ if ($failedScenarios.Count -gt 0) {
 Write-Host "============================================================"
 Write-Host ""
 
+# ── Step 8: Update POC_STLC_Walkthrough.feature ──────────────
+$walkthroughFile = "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\POC_STLC_Walkthrough.feature"
+if (Test-Path $walkthroughFile) {
+    # Count how many report folders exist to derive a run number
+    $runCount = (Get-ChildItem "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\pwg-automation\reports" `
+        -Directory -ErrorAction SilentlyContinue | Measure-Object).Count
+
+    $runDate     = Get-Date -Format "dd-MM-yyyy HH:mm"
+    $reportShort = if ($latestReport) {
+        $latestReport -replace [regex]::Escape("c:\Users\subit_mishra\Documents\AITask\Copilot_POC\"), ""
+    } else { "Not generated" }
+
+    $statusIcon  = if ($failed -gt 0) { "FAIL" } else { "PASS" }
+
+    $newBlock = @"
+# <<LAST_RUN_START>>
+# +------------------------------------------------------------------------------+
+# |  LAST RUN STATS  (auto-updated by run-tests.ps1 after every pipeline run)    |
+# |  Run #   : $runCount                                                         |
+# |  Date    : $runDate                                                          |
+# |  Result  : $statusIcon  |  Total : $total  |  Passed : $passed  |  Failed : $failed  |  Skipped : $skipped |
+# |  Report  : $reportShort |
+# +------------------------------------------------------------------------------+
+# <<LAST_RUN_END>>
+"@
+
+    $content = Get-Content $walkthroughFile -Raw
+    if ($content -match '# <<LAST_RUN_START>>') {
+        # Replace existing block (multiline match)
+        $content = [regex]::Replace($content,
+            '(?s)# <<LAST_RUN_START>>.*?# <<LAST_RUN_END>>',
+            $newBlock.TrimEnd())
+    } else {
+        # First time: insert after the closing box header line (# ╚...╝)
+        $content = [regex]::Replace($content,
+            '(# ╚[^\r\n]+[\r\n]+)',
+            "`$1`n$($newBlock.TrimEnd())`n")
+    }
+    [System.IO.File]::WriteAllText($walkthroughFile, $content, [System.Text.Encoding]::UTF8)
+    Write-Host "[Step 8] POC_STLC_Walkthrough.feature updated — Run #$runCount | $runDate | $statusIcon $passed/$total"
+} else {
+    Write-Host "[Step 8] WARNING: POC_STLC_Walkthrough.feature not found — skipping update."
+}
+
 # Exit with non-zero if any failures (Orchestrator uses this)
 if ($failed -gt 0) { exit 1 } else { exit 0 }
