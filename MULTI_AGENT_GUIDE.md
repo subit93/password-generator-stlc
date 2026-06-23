@@ -345,6 +345,62 @@ This means anyone opening the project can instantly see — **at the top of the 
 
 ---
 
+## The HITL Gate — Human-in-the-Loop Checkpoint
+
+### Where It Sits
+
+Between Phase 5 (test results come in) and Defect Triage (Jira bugs are created), the Orchestrator **pauses and asks you**.
+
+```
+[Phase 5 complete] → ⚠️ HITL PAUSE → You decide → [YES: file bugs] or [NO: skip to report]
+```
+
+This is the **only irreversible action in the whole pipeline** — once a Jira ticket is created, it exists. The HITL gate puts a human in front of that action every single time.
+
+### What You See in Chat
+
+When tests fail, the Orchestrator prints this and **waits for your reply**:
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║   ⚠️  HITL CHECKPOINT — HUMAN APPROVAL REQUIRED             ║
+╠══════════════════════════════════════════════════════════════╣
+║  Phase 5 found 2 failure(s) that may need Jira bug tickets  ║
+╠══════════════════════════════════════════════════════════════╣
+║  GENUINE FAILURES (after filtering known spec gaps):        ║
+║    - Generator > TC-GEN-07: Password contains excluded chars ║
+║    - Security  > TC-SEC-03: Network request detected        ║
+║                                                              ║
+║  KNOWN SPEC GAPS (will be SKIPPED — not real bugs):         ║
+║    - TC-HIST-03, TC-PRE-01 (expected — not yet built)       ║
+╠══════════════════════════════════════════════════════════════╣
+║  What would you like to do?                                  ║
+║   YES          → File Jira bug tickets for genuine failures  ║
+║   NO           → Skip bug filing, proceed to Phase 6 report  ║
+║   SHOW DETAILS → Show full error for each failure           ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
+### Your Three Choices
+
+| You type | What happens |
+|---|---|
+| `YES` | Orchestrator calls the Defect Triage agent → Jira tickets created for genuine bugs only |
+| `NO` | Defect Triage is skipped entirely → pipeline jumps straight to Phase 6 report |
+| `SHOW DETAILS` | Orchestrator prints the full error stack trace for each failure → then asks again |
+
+### What Happens When All Tests Pass
+
+If 0 failures → the HITL gate is **never shown**. The pipeline flows through automatically.
+
+If failures exist but ALL are known spec gaps → Orchestrator logs `HITL_AUTO_SKIP` and proceeds. No prompt needed because there is nothing actionable to approve.
+
+### Why This Matters (The Real-World Reason)
+
+> In a real team, a Test Lead always reviews test failures before a developer is assigned a bug. They ask: *"Is this a real defect or a flaky test? Is it already known? Was the environment unstable?"* The HITL gate gives that same judgement point to the human in this AI pipeline.
+
+---
+
 ## How to Trigger the Pipeline — Three Easy Ways
 
 | Method | How | Best For |

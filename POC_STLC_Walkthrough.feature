@@ -783,6 +783,116 @@ Feature: Phase 7 — CI/CD Pipeline (Automating the Entire Process)
 
 
 # ════════════════════════════════════════════════════════════════════════════
+# SECTION 7b — HITL: HUMAN-IN-THE-LOOP CHECKPOINT
+# ════════════════════════════════════════════════════════════════════════════
+
+@hitl-human-in-the-loop
+Feature: Phase 5b — Human-in-the-Loop (HITL) Checkpoint (Keeping Humans in Control)
+
+  """
+  WHAT IS HUMAN-IN-THE-LOOP (HITL)?
+  ───────────────────────────────────
+  HITL is a design principle where an AI pipeline deliberately PAUSES
+  and asks a human to make a decision before taking an irreversible action.
+
+  WHY DO WE NEED IT HERE?
+  ────────────────────────
+  Once a Jira bug ticket is created, it exists in the project forever.
+  If the AI agent creates tickets for false alarms (flaky tests, known gaps,
+  or environment blips), the team wastes time investigating fake bugs.
+
+  The HITL gate sits between Phase 5 (test results) and Phase 5b (bug filing).
+  A human reviews the failures and decides: "Yes, these are real bugs" or
+  "No, skip it — I know why these failed."
+
+  THE DECISION POINT IN OUR PIPELINE:
+  ─────────────────────────────────────
+  [Phase 5 results arrive]
+         ↓
+  ⚠️  HITL GATE — Orchestrator pauses and presents failures to the human
+         ↓                              ↓
+  Human types YES               Human types NO
+         ↓                              ↓
+  Defect Triage runs            Triage is skipped
+  (Jira bugs created)           (go straight to report)
+  """
+
+  Background:
+    Given Phase 5 has completed and the Orchestrator holds the test results
+    And at least one test failure was detected
+
+  Scenario: [HITL-01] Orchestrator pauses and presents the approval checkpoint
+    Given the test suite returned 4 failures
+    When the Orchestrator checks each failure against the known spec gaps list:
+      | Failure         | Is Known Gap? | Action            |
+      | TC-HIST-03      | YES           | Auto-skip — no bug|
+      | TC-PRE-01       | YES           | Auto-skip — no bug|
+      | TC-GEN-07       | NO            | Needs human review|
+      | TC-SEC-03       | NO            | Needs human review|
+    Then the Orchestrator displays a HITL checkpoint box in the chat:
+      """
+      ╔══════════════════════════════════════════════════════════════╗
+      ║   ⚠️  HITL CHECKPOINT — HUMAN APPROVAL REQUIRED             ║
+      ║  2 genuine failure(s) found — 2 known gaps auto-skipped     ║
+      ║  Genuine: TC-GEN-07, TC-SEC-03                              ║
+      ║  Reply: YES to file bugs | NO to skip | SHOW DETAILS        ║
+      ╚══════════════════════════════════════════════════════════════╝
+      """
+    And the pipeline STOPS and waits — no Jira ticket is created yet
+
+  Scenario: [HITL-02] Human approves — Jira tickets are created
+    Given the HITL checkpoint is displayed with 2 genuine failures
+    When the human types "YES" in the chat
+    Then the Orchestrator calls the PWG Defect Triage agent
+    And the Defect Triage agent creates Jira bug tickets: KAN-XX and KAN-XY
+    And the Orchestrator logs "HITL_DECISION: YES — 2 tickets filed"
+    And the pipeline proceeds to Phase 6 reporting
+
+  Scenario: [HITL-03] Human declines — bug filing is skipped
+    Given the HITL checkpoint is displayed with 2 genuine failures
+    When the human types "NO" in the chat
+    Then the Defect Triage agent is NOT called
+    And NO Jira tickets are created
+    And the Orchestrator logs "HITL_DECISION: NO — triage skipped by human"
+    And the pipeline proceeds directly to Phase 6 reporting
+
+  Scenario: [HITL-04] Human asks for more details before deciding
+    Given the HITL checkpoint shows 2 genuine failures
+    When the human types "SHOW DETAILS"
+    Then the Orchestrator reads cucumber.json and prints the full error message:
+      """
+      TC-GEN-07 — Generator tab: Expected password to not contain 'O'
+                  but found 'O' at position 4: xOkP9m...
+      TC-SEC-03 — Security: Expected 0 network requests
+                  but captured 1 request to api.example.com
+      """
+    And the HITL prompt is shown again: YES / NO / SHOW DETAILS
+    And the pipeline remains paused until the human makes a final decision
+
+  Scenario: [HITL-05] All failures are known gaps — HITL auto-skips
+    Given the test suite returned 2 failures: TC-HIST-03 and TC-PRE-01
+    When the Orchestrator checks both against the known spec gaps list
+    Then BOTH are identified as known spec gaps
+    And the Orchestrator logs "HITL_AUTO_SKIP: all failures were known spec gaps"
+    And the HITL prompt is NOT shown — no human input needed
+    And the pipeline moves directly to Phase 6 reporting
+    """
+    WHY IS THIS SMART?
+    ──────────────────
+    Not every failure needs human attention. Known gaps are expected — we
+    already documented them. Auto-skipping them means the human only sees
+    failures that are actually new, unexpected, and worth their time.
+    """
+
+  Scenario: [HITL-06] No failures — HITL gate is not triggered at all
+    Given Phase 5 completed with 0 failures (138/138 passed)
+    When the Orchestrator reaches the HITL checkpoint step
+    Then the HITL prompt is NOT displayed
+    And the pipeline flows directly to Phase 6 reporting without any pause
+    And the final summary shows "HITL Gate: NOT TRIGGERED (0 failures)"
+
+
+# ════════════════════════════════════════════════════════════════════════════
 # SECTION 8 — OVERALL STLC SUMMARY & WHAT CAN BE IMPROVED
 # ════════════════════════════════════════════════════════════════════════════
 

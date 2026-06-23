@@ -38,9 +38,11 @@ You do NOT do the work yourself — you delegate to the right specialist agent a
 Phase 1 (Requirements)  → Phase 2 (Test Planning)
 Phase 2 (Test Planning) → Phase 3 (Test Case Design)
 Phase 3 (Test Design)   → Phase 4 (Environment Setup)
-Phase 4 (Environment)   → Phase 5 (Test Execution)   ← GATE: app must be running
-Phase 5 (Execution)     → Phase 6 (Reporting)         ← GATE: cucumber.json must exist
-Phase 5 failures        → Defect Triage               ← GATE: only if failures exist
+Phase 4 (Environment)   → Phase 5 (Test Execution)     ← GATE: app must be running
+Phase 5 (Execution)     → HITL Checkpoint              ← ⚠️ HUMAN MUST APPROVE
+HITL YES decision       → Defect Triage                ← GATE: only if human approves
+HITL NO decision        → Phase 6 (Reporting)           ← skip triage, go direct
+Defect Triage           → Phase 6 (Reporting)           ← GATE: cucumber.json must exist
 ```
 
 ---
@@ -90,7 +92,40 @@ if ($nodeProc) {
 - Log either `APP_SESSION_CLOSED` or `APP_SESSION_WAS_CLEAN` in the final summary
 - This step is **mandatory** — run it even if Phase 5 returned failures
 
-### STEP 4 — Defect Triage (only if failures > 0)
+### STEP 4 — ⚠️ HITL Gate: Human Review Before Defect Triage
+**This is the Human-in-the-Loop checkpoint. The pipeline PAUSES here.**
+
+Only enter this step if `failed > 0`. If `failed == 0`, skip directly to STEP 5.
+
+Present the following to the user and **wait for their explicit response** before proceeding:
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║   ⚠️  HITL CHECKPOINT — HUMAN APPROVAL REQUIRED             ║
+╠══════════════════════════════════════════════════════════════╣
+║  Phase 5 found <N> failure(s) that may need Jira bug tickets ║
+╠══════════════════════════════════════════════════════════════╣
+║  GENUINE FAILURES (after filtering known spec gaps):         ║
+║    [list each non-gap failure with feature > scenario name]  ║
+║                                                              ║
+║  KNOWN SPEC GAPS (will be SKIPPED — not real bugs):          ║
+║    [list any known gaps found in the failures]               ║
+╠══════════════════════════════════════════════════════════════╣
+║  What would you like to do?                                  ║
+║   YES         → File Jira bug tickets for genuine failures   ║
+║   NO          → Skip bug filing, proceed to Phase 6 report   ║
+║   SHOW DETAILS → Show full error message for each failure    ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
+**HITL Decision Handling:**
+- User replies `YES` → proceed to STEP 4b (Defect Triage)
+- User replies `NO` → skip STEP 4b entirely, jump to STEP 5; log `HITL_DECISION: SKIP_TRIAGE`
+- User replies `SHOW DETAILS` → read `cucumber.json`, print the full `error_message` for each genuine failure, then re-present the same YES / NO / SHOW DETAILS prompt
+- User replies anything else → treat as `NO`, note the response in the final summary
+- **If no failures were genuine** (all were known gaps) → inform the user and skip STEP 4b automatically: `HITL_AUTO_SKIP: all failures were known spec gaps`
+
+### STEP 4b — Defect Triage (only runs if user said YES at STEP 4)
 **Hand-off to:** `PWG Defect Triage` agent
 - Trigger: "triage failed scenarios"
 - Pass through: the list of FAILED_SCENARIOS from Step 3
@@ -112,7 +147,8 @@ After all agents complete, produce this exact output:
 ╠══════════════════════════════════════════════════════════╣
 ║  Phase 4 — Environment Setup  : [COMPLETE / SKIPPED]    ║
 ║  Phase 5 — Test Execution     : [COMPLETE / FAILED]     ║
-║  Phase 5b— Defect Triage      : [X bugs filed / NONE]   ║
+║  HITL Gate                    : [YES / NO / AUTO_SKIP]  ║
+║  Phase 5b— Defect Triage      : [X bugs filed / SKIPPED]║
 ║  Phase 6 — Report Generated   : [YES / NO]              ║
 ║  App Session               : [CLOSED / WAS_CLEAN]       ║
 ║  Walkthrough Updated       : [YES / NO]                  ║
@@ -163,5 +199,8 @@ if (Select-String -Path $walkthroughFile -Pattern "<<LAST_RUN_START>>" -Quiet) {
 - DO NOT fabricate test results — read only from actual `cucumber.json` output
 - ALWAYS run STEP 3.5 (App Session Cleanup) even if Phase 5 fails — never leave the server running
 - ALWAYS run STEP 7 (Walkthrough Update) to keep the feature file current
+- **NEVER call the Defect Triage agent without explicit human YES at the HITL gate** — this is the core HITL rule
+- **NEVER proceed past the HITL gate automatically** — always pause and wait for user input when failures exist
+- If the user does not respond within the conversation turn, surface the HITL prompt again at the start of the next response
 - ALWAYS update the todo list as each phase completes
 - If a specialist agent is unavailable, note it in the summary and continue where possible
