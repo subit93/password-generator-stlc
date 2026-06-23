@@ -7,11 +7,12 @@
 
 # <<LAST_RUN_START>>
 # +------------------------------------------------------------------------------+
-# |  LAST RUN STATS  (auto-updated by run-tests.ps1 after every pipeline run)    |
-# |  Run #   : 1                                                                 |
-# |  Date    : 23-06-2026 11:30                                                  |
+# |  LAST RUN STATS  (auto-updated by orchestrator after every pipeline run)     |
+# |  Run #   : 2                                                                 |
+# |  Date    : 23-06-2026 13:30                                                  |
 # |  Result  : PASS  |  Total : 138  |  Passed : 138  |  Failed : 0  |  Skipped : 0 |
-# |  Report  : pwg-automation\reports\run_23-06-2026_11-28\PWGTestReport.html   |
+# |  HITL    : NOT TRIGGERED (zero failures - auto-proceeded)                    |
+# |  Report  : pwg-automation\reports\run_23-06-2026_13-28\PWGTestReport.html   |
 # +------------------------------------------------------------------------------+
 # <<LAST_RUN_END>>
 #

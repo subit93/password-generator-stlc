@@ -1,5 +1,5 @@
 # ============================================================
-#  run-tests.ps1 — PWG Automation Test Runner
+#  run-tests.ps1 - PWG Automation Test Runner
 #  Called by  : PWG Executor Agent (Phase 5)
 #  Purpose    : Start app (if needed), run Cucumber/Maven suite,
 #               output structured results for Orchestrator to consume
@@ -21,15 +21,15 @@ Set-Location $ROOT
 
 Write-Host ""
 Write-Host "============================================================"
-Write-Host " PWG STLC — Phase 5: Test Execution"
+Write-Host " PWG STLC - Phase 5: Test Execution"
 Write-Host " Base URL : $BaseUrl"
 Write-Host " Browser  : $Browser"
 Write-Host " Tags     : $(if ($Tags) { $Tags } else { 'ALL' })"
 Write-Host "============================================================"
 Write-Host ""
 
-# ── Step 1: Check if app is running, start it if not ──────────
-Write-Host "[Pre-flight] Checking if app is running at $BaseUrl ..."
+# -- Step 1: Check if app is running, start it if not ------------
+Write-Host "(Pre-flight) Checking if app is running at $BaseUrl ..."
 $appRunning = $false
 try {
     $resp = Invoke-WebRequest $BaseUrl -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
@@ -38,7 +38,7 @@ try {
 
 $nodeProcess = $null
 if (-not $appRunning) {
-    Write-Host "[Pre-flight] App not running. Starting Node.js server..."
+    Write-Host "(Pre-flight) App not running. Starting Node.js server..."
     $nodeProcess = Start-Process -FilePath "node" `
         -ArgumentList "server.js" `
         -WorkingDirectory $APPDIR `
@@ -54,15 +54,15 @@ if (-not $appRunning) {
         } catch {}
     }
     if (-not $ready) {
-        Write-Host "APP_START_FAILED: Could not reach $BaseUrl after 15 seconds"
+        Write-Host "APP_START_FAILED - Could not reach $BaseUrl after 15 seconds"
         exit 2
     }
-    Write-Host "[Pre-flight] App started successfully (PID: $($nodeProcess.Id))"
+    Write-Host "(Pre-flight) App started successfully (PID: $($nodeProcess.Id))"
 } else {
-    Write-Host "[Pre-flight] App already running at $BaseUrl"
+    Write-Host "(Pre-flight) App already running at $BaseUrl"
 }
 
-# ── Step 2: Build Maven command ────────────────────────────────
+# -- Step 2: Build Maven command --------------------------------
 $mvnArgs = @(
     "clean", "test",
     "-Dbrowser=$Browser",
@@ -72,10 +72,10 @@ $mvnArgs = @(
 if ($Tags) { $mvnArgs += "-Dcucumber.filter.tags=$Tags" }
 
 Write-Host ""
-Write-Host "[Phase 5] Executing: mvn $($mvnArgs -join ' ')"
+Write-Host "(Phase 5) Executing: mvn $($mvnArgs -join ' ')"
 Write-Host ""
 
-# ── Step 3: Run tests ─────────────────────────────────────────
+# -- Step 3: Run tests -------------------------------------------
 $proc = Start-Process -FilePath "mvn" `
     -ArgumentList $mvnArgs `
     -WorkingDirectory $ROOT `
@@ -84,17 +84,17 @@ $proc = Start-Process -FilePath "mvn" `
     -RedirectStandardError  $ERRFILE
 
 $exitCode = $proc.ExitCode
-Write-Host "[Phase 5] Maven exit code: $exitCode"
+Write-Host "(Phase 5) Maven exit code: $exitCode"
 
-# ── Step 4: Stop app if we started it ─────────────────────────
+# -- Step 4: Stop app if we started it --------------------------
 if ($nodeProcess -ne $null) {
-    Write-Host "[Post-run] Stopping Node.js server (PID: $($nodeProcess.Id)) ..."
+    Write-Host "(Post-run) Stopping Node.js server (PID: $($nodeProcess.Id)) ..."
     Stop-Process -Id $nodeProcess.Id -Force -ErrorAction SilentlyContinue
 }
 
-# ── Step 5: Parse cucumber.json ───────────────────────────────
+# -- Step 5: Parse cucumber.json ---------------------------------
 if (-not (Test-Path $JSON)) {
-    Write-Host "EXECUTION_FAILED: cucumber.json not found. Check $LOGFILE for details."
+    Write-Host "EXECUTION_FAILED - cucumber.json not found. Check $LOGFILE for details."
     exit 1
 }
 
@@ -119,12 +119,12 @@ foreach ($feature in $jsonData) {
     }
 }
 
-# ── Step 6: Locate latest Extent report ───────────────────────
+# -- Step 6: Locate latest Extent report -------------------------
 $latestReport = Get-ChildItem "$ROOT\reports" -Filter "PWGTestReport.html" -Recurse -ErrorAction SilentlyContinue |
     Sort-Object LastWriteTime -Descending |
     Select-Object -First 1 -ExpandProperty FullName
 
-# ── Step 7: Structured output for Orchestrator ────────────────
+# -- Step 7: Structured output for Orchestrator ------------------
 Write-Host ""
 Write-Host "============================================================"
 Write-Host " EXECUTION_COMPLETE"
@@ -137,13 +137,13 @@ Write-Host " Report  : $(if ($latestReport) { $latestReport } else { 'Not genera
 if ($failedScenarios.Count -gt 0) {
     Write-Host " FAILED_SCENARIOS:"
     $failedScenarios | ForEach-Object {
-        Write-Host "   [FAILED] $($_.Feature) > $($_.Name)"
+        Write-Host "   FAILED: $($_.Feature) > $($_.Name)"
     }
 }
 Write-Host "============================================================"
 Write-Host ""
 
-# ── Step 8: Update POC_STLC_Walkthrough.feature ──────────────
+# -- Step 8: Update POC_STLC_Walkthrough.feature -----------------
 $walkthroughFile = "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\POC_STLC_Walkthrough.feature"
 if (Test-Path $walkthroughFile) {
     # Count how many report folders exist to derive a run number
@@ -160,7 +160,7 @@ if (Test-Path $walkthroughFile) {
     $newBlock = @"
 # <<LAST_RUN_START>>
 # +------------------------------------------------------------------------------+
-# |  LAST RUN STATS  (auto-updated by run-tests.ps1 after every pipeline run)    |
+# |  LAST RUN STATS  (auto-updated by run-tests.ps1 after every pipeline run)   |
 # |  Run #   : $runCount                                                         |
 # |  Date    : $runDate                                                          |
 # |  Result  : $statusIcon  |  Total : $total  |  Passed : $passed  |  Failed : $failed  |  Skipped : $skipped |
@@ -176,15 +176,15 @@ if (Test-Path $walkthroughFile) {
             '(?s)# <<LAST_RUN_START>>.*?# <<LAST_RUN_END>>',
             $newBlock.TrimEnd())
     } else {
-        # First time: insert after the closing box header line (# ╚...╝)
+        # First time: insert after the closing box header line (# <<end-of-header>>)
         $content = [regex]::Replace($content,
-            '(# ╚[^\r\n]+[\r\n]+)',
+            '(?m)(^# =+[\r\n]+)',
             "`$1`n$($newBlock.TrimEnd())`n")
     }
     [System.IO.File]::WriteAllText($walkthroughFile, $content, [System.Text.Encoding]::UTF8)
-    Write-Host "[Step 8] POC_STLC_Walkthrough.feature updated — Run #$runCount | $runDate | $statusIcon $passed/$total"
+    Write-Host "(Step 8) POC_STLC_Walkthrough.feature updated - Run #$runCount | $runDate | $statusIcon $passed/$total"
 } else {
-    Write-Host "[Step 8] WARNING: POC_STLC_Walkthrough.feature not found — skipping update."
+    Write-Host "(Step 8) WARNING: POC_STLC_Walkthrough.feature not found - skipping update."
 }
 
 # Exit with non-zero if any failures (Orchestrator uses this)
