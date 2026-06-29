@@ -107,23 +107,51 @@ Present the following to the user and **wait for their explicit response** befor
 ╠══════════════════════════════════════════════════════════════╣
 ║  GENUINE FAILURES (after filtering known spec gaps):         ║
 ║    [list each non-gap failure with feature > scenario name]  ║
+║    [include: step that failed + first line of error message] ║
 ║                                                              ║
 ║  KNOWN SPEC GAPS (will be SKIPPED — not real bugs):          ║
 ║    [list any known gaps found in the failures]               ║
 ╠══════════════════════════════════════════════════════════════╣
 ║  What would you like to do?                                  ║
-║   YES         → File Jira bug tickets for genuine failures   ║
-║   NO          → Skip bug filing, proceed to Phase 6 report   ║
-║   SHOW DETAILS → Show full error message for each failure    ║
+║   YES          → File Jira bug tickets for genuine failures  ║
+║   NO           → Skip bug filing, proceed to Phase 6 report  ║
+║   SHOW DETAILS → Show full error + stack trace per failure   ║
+║   READ         → Reprint this summary (resets your 15 min)   ║
+╠══════════════════════════════════════════════════════════════╣
+║  ⏳ Take your time — the pipeline is paused.                 ║
+║     You have 15 minutes to respond before timeout.           ║
+║     Timeout default action: NO (triage skipped).             ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
 
 **HITL Decision Handling:**
-- User replies `YES` → proceed to STEP 4b (Defect Triage)
-- User replies `NO` → skip STEP 4b entirely, jump to STEP 5; log `HITL_DECISION: SKIP_TRIAGE`
-- User replies `SHOW DETAILS` → read `cucumber.json`, print the full `error_message` for each genuine failure, then re-present the same YES / NO / SHOW DETAILS prompt
-- User replies anything else → treat as `NO`, note the response in the final summary
-- **If no failures were genuine** (all were known gaps) → inform the user and skip STEP 4b automatically: `HITL_AUTO_SKIP: all failures were known spec gaps`
+- User replies `YES` → log `HITL_DECISION: YES — <N> tickets to be filed`, proceed to STEP 4b (Defect Triage)
+- User replies `NO` → log `HITL_DECISION: NO — triage skipped by human`, skip STEP 4b entirely, jump to STEP 5
+- User replies `SHOW DETAILS` → read `cucumber.json`, print the full `error_message` and stack trace for each genuine failure, then re-present the full HITL checkpoint box again unchanged. The 15-minute timer resets.
+- User replies `READ` → reprint the full HITL checkpoint box cleanly (useful if the display scrolled away). Log `HITL_READ_REQUESTED`. The 15-minute timer resets.
+- User replies anything unrecognised → do NOT proceed, do NOT default to NO. Reply: `⚠️ Unrecognised response: "<input>". Please reply with one of: YES | NO | SHOW DETAILS | READ — pipeline is still paused.` Re-display the checkpoint. Log `HITL_INVALID_INPUT: <input> — re-prompted`.
+- **Timeout (15 minutes of no response):** Apply default action `NO`. Log `HITL_TIMEOUT: 15 min elapsed — defaulted to NO`. Add to final summary: "HITL Gate: TIMEOUT — human did not respond. Triage skipped. Manual review recommended."
+- **If no failures were genuine** (all were known gaps) → inform the user and skip STEP 4b automatically: `HITL_AUTO_SKIP: all failures were known spec gaps`. No prompt needed.
+
+**After every HITL decision (YES, NO, TIMEOUT, or AUTO_SKIP), write one audit entry to `pwg-automation/reports/hitl-audit.log`:**
+
+Run this in terminal immediately after the decision is recorded:
+```powershell
+$auditLog  = "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\pwg-automation\reports\hitl-audit.log"
+$runId     = (Get-ChildItem "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\pwg-automation\reports" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name
+$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+# Replace placeholders below with actual values from this run:
+$decision  = "<YES|NO|TIMEOUT|AUTO_SKIP>"    # actual decision
+$genuine   = "<comma-separated TC IDs or NONE>"  # e.g. TC-SEC-03
+$gaps      = "<comma-separated TC IDs or NONE>"  # e.g. TC-HIST-03
+$tickets   = "<comma-separated KAN IDs or NONE>" # e.g. KAN-43
+$mode      = "interactive"                        # or CI/CD
+$entry = "[$timestamp] Run: $runId | Decision: $decision | Genuine: $genuine | Gaps skipped: $gaps | Tickets filed: $tickets | Mode: $mode"
+Add-Content -Path $auditLog -Value $entry -Encoding UTF8
+Write-Host "HITL_AUDIT_WRITTEN: $entry"
+```
+- The file is **append-only — never overwrite it**
+- If the file does not exist yet, `Add-Content` creates it automatically
 
 ### STEP 4b — Defect Triage (only runs if user said YES at STEP 4)
 **Hand-off to:** `PWG Defect Triage` agent
@@ -164,8 +192,46 @@ After all agents complete, produce this exact output:
 [AI narrative: 2-3 sentences explaining what passed, what failed, and recommended next action]
 ```
 
-### STEP 7 — Update POC_STLC_Walkthrough.feature
-After Phase 6 report is produced, update the living walkthrough document with the latest run stats.
+### STEP 7 — Update Persistent Logs & Living Walkthrough
+After Phase 6 report is produced, three records must be kept up to date.
+
+#### 7a — run-history.log (cumulative run record)
+`run-tests.ps1` Step 9 handles this automatically. Verify it completed:
+```powershell
+$historyLog = "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\pwg-automation\reports\run-history.log"
+if (Test-Path $historyLog) {
+    Write-Host "RUN_HISTORY_EXISTS: $(( Get-Content $historyLog | Measure-Object -Line).Lines) run(s) recorded"
+    Get-Content $historyLog | Select-Object -Last 3  # show last 3 entries
+} else {
+    Write-Host "RUN_HISTORY_MISSING: run-tests.ps1 Step 9 may not have completed"
+}
+```
+This file is **append-only**. Every run adds one line:
+```
+[2026-06-29 12:12:07] Run#1 | FAIL | Total:55 Passed:54 Failed:1 Skipped:0 | Failed scenarios: TC-SEC-03 | Report:run_29-06-2026_12-12
+[2026-06-29 14:05:33] Run#2 | PASS | Total:55 Passed:55 Failed:0 Skipped:0 | No failures | Report:run_29-06-2026_14-05
+```
+
+#### 7b — hitl-audit.log (HITL decision trail)
+This was written in STEP 4 immediately after the human decision. Verify it was written:
+```powershell
+$auditLog = "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\pwg-automation\reports\hitl-audit.log"
+if (Test-Path $auditLog) {
+    Write-Host "HITL_AUDIT_EXISTS: $(( Get-Content $auditLog | Measure-Object -Line).Lines) decision(s) recorded"
+    Get-Content $auditLog | Select-Object -Last 3  # show last 3 entries
+} else {
+    Write-Host "HITL_AUDIT_MISSING — writing entry now (fallback)"
+    # fallback: write the entry here if STEP 4 failed to write it
+}
+```
+This file is **append-only**. Every HITL decision adds one line:
+```
+[2026-06-29 12:12:07] Run: run_29-06-2026_12-12 | Decision: YES | Genuine: TC-SEC-03 | Gaps skipped: NONE | Tickets filed: KAN-43 | Mode: interactive
+[2026-06-29 14:05:33] Run: run_29-06-2026_14-05 | Decision: AUTO_SKIP | Genuine: NONE | Gaps skipped: TC-HIST-03 | Tickets filed: NONE | Mode: interactive
+```
+
+#### 7c — POC_STLC_Walkthrough.feature (last run stats)
+Update the living walkthrough document with the latest run stats.
 Run in terminal:
 ```powershell
 $walkthroughFile = "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\POC_STLC_Walkthrough.feature"
@@ -198,9 +264,12 @@ if (Select-String -Path $walkthroughFile -Pattern "<<LAST_RUN_START>>" -Quiet) {
 - DO NOT file Jira bugs unless there are actual failures from cucumber.json
 - DO NOT fabricate test results — read only from actual `cucumber.json` output
 - ALWAYS run STEP 3.5 (App Session Cleanup) even if Phase 5 fails — never leave the server running
-- ALWAYS run STEP 7 (Walkthrough Update) to keep the feature file current
+- ALWAYS run STEP 7 (Log Updates + Walkthrough Update) after every run — `run-history.log`, `hitl-audit.log`, and the walkthrough must all be kept current
+- NEVER overwrite `run-history.log` or `hitl-audit.log` — these are append-only audit files
 - **NEVER call the Defect Triage agent without explicit human YES at the HITL gate** — this is the core HITL rule
 - **NEVER proceed past the HITL gate automatically** — always pause and wait for user input when failures exist
+- **NEVER treat unrecognised input as NO** — always re-prompt. Only timeout after 15 minutes may default to NO
+- **HITL timeout is 15 minutes** for interactive sessions (VS Code Chat). In CI/CD mode apply the `HITL_CI_FALLBACK` policy instead
 - If the user does not respond within the conversation turn, surface the HITL prompt again at the start of the next response
 - ALWAYS update the todo list as each phase completes
 - If a specialist agent is unavailable, note it in the summary and continue where possible

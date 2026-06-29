@@ -1,0 +1,8 @@
+﻿# PWG Automation â€” HITL Decision Audit Log
+# Format: [timestamp] Run: <run_id> | Decision: <YES|NO|TIMEOUT|AUTO_SKIP> | Genuine: <TC IDs> | Gaps skipped: <TC IDs> | Tickets filed: <KAN IDs> | Mode: <interactive|CI/CD>
+# This file is APPEND-ONLY. Never delete or overwrite entries.
+# A compliance reviewer can use this file to prove a human approved every Jira bug ticket ever filed.
+# -----------------------------------------------------------------------------------------------------------
+[2026-06-25 11:17:00] Run: run_25-06-2026_11-17 | Decision: AUTO_SKIP | Genuine: NONE | Gaps skipped: TC-HIST-03, TC-HIST-06, TC-PRE-01, TC-PRE-05 | Tickets filed: NONE | Mode: interactive
+[2026-06-29 12:12:07] Run: run_29-06-2026_12-12 | Decision: YES | Genuine: TC-SEC-03 | Gaps skipped: NONE | Tickets filed: KAN-43 | Mode: interactive
+[2026-06-29 14:23:55] Run: run_29-06-2026_14-19 | Decision: YES | Genuine: TC-SEC-03 | Gaps skipped: NONE | Tickets filed: KAN-43 | Mode: interactive

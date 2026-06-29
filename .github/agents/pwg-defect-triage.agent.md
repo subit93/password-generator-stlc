@@ -94,15 +94,38 @@ ExtentReport  → pwg-automation/reports/run_<timestamp>/PWGTestReport.html
 **Labels**: `automation`, `pwg-regression`
 **Epic Link**: KAN-9
 
-### Step 5 — Return Results to Orchestrator
+### Step 5 — Assign Ticket to Current Active Sprint
+
+After creating and assigning each ticket, find the current active sprint and link the ticket to it:
+
+**5a — Find active sprint ID:**
+Call `mcp_jira_execute_jql` with:
+```jql
+project = KAN AND sprint in openSprints() ORDER BY created DESC
+```
+If results are returned, extract the sprint name from any returned issue's sprint field.
+If no open sprint exists, log `SPRINT_NONE: no active sprint found — ticket sits in backlog` and skip 5b.
+
+**5b — Add ticket to sprint:**
+Call `mcp_jira_edit_ticket` on the newly created ticket with the sprint field set to the active sprint ID.
+If edit fails (sprint field not supported by available tools), add a comment on the ticket:
+```
+📋 Sprint Assignment Note:
+This defect was filed during run <run_id> on <date>.
+Please move this ticket to the current active sprint manually.
+Sprint found: <sprint name>
+```
+Log either `SPRINT_ASSIGNED: <sprint name>` or `SPRINT_COMMENT_ADDED: <sprint name>`.
+
+### Step 6 — Return Results to Orchestrator
 
 ```
 TRIAGE_COMPLETE
   New_Defects : <count>
   Known_Gaps  : <count>
   Tickets_Created:
-    - KAN-XX : <scenario name>
-    - KAN-XY : <scenario name>
+    - KAN-XX : <scenario name> | Sprint: <sprint name or BACKLOG> | Status: To Do
+    - KAN-XY : <scenario name> | Sprint: <sprint name or BACKLOG> | Status: To Do
   Known_Gap_Scenarios:
     - <scenario name> (TC-HIST-03)
 ```

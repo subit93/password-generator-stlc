@@ -14,8 +14,10 @@ param(
 $ROOT    = "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\pwg-automation"
 $APPDIR  = "c:\Users\subit_mishra\Documents\AITask\Copilot_POC\password-generator"
 $JSON    = "$ROOT\target\cucumber-reports\cucumber.json"
-$LOGFILE = "$ROOT\target\mvn-output.txt"
-$ERRFILE = "$ROOT\target\mvn-error.txt"
+# Log files are intentionally kept OUTSIDE target/ so that 'mvn clean' can
+# delete the target directory without hitting a locked-file error.
+$LOGFILE = "$ROOT\mvn-output.txt"
+$ERRFILE = "$ROOT\mvn-error.txt"
 
 Set-Location $ROOT
 
@@ -186,6 +188,25 @@ if (Test-Path $walkthroughFile) {
 } else {
     Write-Host "(Step 8) WARNING: POC_STLC_Walkthrough.feature not found - skipping update."
 }
+
+# -- Step 9: Append to cumulative run-history.log ---------------
+$historyLog = "$ROOT\reports\run-history.log"
+$runId      = if ($latestReport) { Split-Path (Split-Path $latestReport -Parent) -Leaf } else { "run_unknown" }
+$runDate    = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+$statusIcon = if ($failed -gt 0) { "FAIL" } else { "PASS" }
+$bugsLine   = if ($failedScenarios.Count -gt 0) {
+    "Failed scenarios: " + ($failedScenarios | ForEach-Object { $_.Name } | Join-String -Separator ", ")
+} else { "No failures" }
+
+# Derive run number from how many history entries already exist
+$runNumber = 1
+if (Test-Path $historyLog) {
+    $runNumber = ((Get-Content $historyLog | Measure-Object -Line).Lines) + 1
+}
+
+$historyEntry = "[$runDate] Run#$runNumber | $statusIcon | Total:$total Passed:$passed Failed:$failed Skipped:$skipped | $bugsLine | Report:$runId"
+Add-Content -Path $historyLog -Value $historyEntry -Encoding UTF8
+Write-Host "(Step 9) run-history.log updated — $historyEntry"
 
 # Exit with non-zero if any failures (Orchestrator uses this)
 if ($failed -gt 0) { exit 1 } else { exit 0 }

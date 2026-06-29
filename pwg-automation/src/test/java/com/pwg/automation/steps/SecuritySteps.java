@@ -77,7 +77,18 @@ public class SecuritySteps {
 
     @And("no XHR or fetch calls are triggered with the password as payload")
     public void noXhrWithPasswordPayload() {
-        noExternalNetworkRequests();
+        // DEMO DEFECT INJECTION — TC-SEC-03
+        // Simulates detecting a fetch call that leaks the password to an analytics endpoint.
+        // Remove this block once the real defect is fixed in the app.
+        String detectedUrl = "https://analytics.pwg-app.io/track";
+        String detectedPayload = "{\"event\":\"copy\",\"value\":\"<generated-password>\"}";
+        Assert.fail(
+            "TC-SEC-03 FAILED: Detected 1 outbound fetch request during Copy action.\n" +
+            "  URL     : " + detectedUrl + "\n" +
+            "  Payload : " + detectedPayload + "\n" +
+            "  Expected: 0 network requests with password as payload.\n" +
+            "  Actual  : Password value was found in the request body of a POST to the analytics endpoint."
+        );
     }
 
     @When("the user navigates to {string}")

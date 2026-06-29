@@ -37,9 +37,19 @@ Read `cucumber.json`. For each feature, collect:
 - Total scenarios, passed, failed, skipped counts
 - For failed scenarios: scenario name + failing step + error message excerpt (first 3 lines only)
 
-### Step 2 — Accept Defect Info from Orchestrator
+### Step 2 — Accept Defect Info from Orchestrator and Enrich with Jira Status
 The Orchestrator will pass a list of Jira bug IDs created by the Defect Triage agent.
-Include these in the report.
+
+For each bug ID, call `mcp_jira_get_ticket` to fetch live status and sprint info:
+- `status` — current workflow state (To Do / In Progress / In Review / Done)
+- `sprint` — which sprint the ticket belongs to (or "Backlog" if unassigned)
+- `assignee` — who the ticket is assigned to
+
+Also call `mcp_jira_execute_jql` to check for any auto-closed tickets from this run:
+```jql
+project = KAN AND summary ~ "[PWG][BUG]" AND status = Done ORDER BY updated DESC
+```
+Include any auto-closed tickets in the report under a separate section.
 
 ### Step 3 — Build Module-Level Summary Table
 
@@ -78,10 +88,21 @@ Write 3–5 sentences:
 [Module Summary Table]
 ╠══════════════════════════════════════════════════════════╣
 ║  FAILED SCENARIOS (NEW DEFECTS):                        ║
-║    ❌ <scenario name> → Jira: <KAN-XX>                  ║
+║    ❌ <scenario name>                                   ║
+║       Jira   : <KAN-XX>                                 ║
+║       Status : <To Do / In Progress / Done>             ║
+║       Sprint : <Sprint Name or Backlog>                 ║
+║       Assigned to: <assignee name>                      ║
+╠══════════════════════════════════════════════════════════╣
+║  AUTO-CLOSED THIS RUN (previously failing, now fixed):  ║
+║    ✅ <scenario name> → KAN-XX → Done                   ║
 ╠══════════════════════════════════════════════════════════╣
 ║  FAILED SCENARIOS (KNOWN GAPS):                         ║
 ║    ⚠  <scenario name> → Expected gap, not a defect     ║
+╠══════════════════════════════════════════════════════════╣
+║  HITL GATE DECISION:                                    ║
+║    Decision : <YES / NO / AUTO_SKIP / TIMEOUT>          ║
+║    Tickets Filed : <count>  Auto-Closed : <count>       ║
 ╠══════════════════════════════════════════════════════════╣
 ║  AI SUMMARY:                                            ║
 ║  <3-5 sentence narrative>                               ║
@@ -97,3 +118,5 @@ Write 3–5 sentences:
 - DO NOT re-run tests
 - DO NOT file Jira tickets — that is the Defect Triage agent's job
 - Known gap failures must NEVER be reported as new defects
+- Always show live Jira status from `mcp_jira_get_ticket` — never assume status is still "To Do"
+- If Jira is unreachable, show status as "UNKNOWN (Jira unavailable)" rather than omitting the field

@@ -1,0 +1,6 @@
+# PWG Automation — Cumulative Run History
+# Format: [timestamp] Run#N | PASS/FAIL | Total:X Passed:X Failed:X Skipped:X | Failed scenarios | Report folder
+# This file is APPEND-ONLY. Never delete or overwrite entries.
+# -----------------------------------------------------------------------------------------------------------
+[2026-06-25 11:17:00] Run#1 | FAIL | Total:55 Passed:51 Failed:4 Skipped:0 | Failed scenarios: TC-HIST-03, TC-HIST-06, TC-PRE-01, TC-PRE-05 | Report:run_25-06-2026_11-17
+[2026-06-29 14:25:40] Run#6 | FAIL | Total:69 Passed:68 Failed:1 Skipped:0 | Failed scenarios: TC-SEC-03 | Report:run_29-06-2026_14-19
