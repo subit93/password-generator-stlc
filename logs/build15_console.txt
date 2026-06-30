@@ -1,0 +1,1243 @@
+﻿Started by user Subit Mishra
+Obtained pwg-automation/Jenkinsfile from git https://github.com/subit93/password-generator-stlc.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in C:\Jenkins\workspace\PWG-Automation
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Jenkins\workspace\PWG-Automation\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/subit93/password-generator-stlc.git # timeout=10
+Fetching upstream changes from https://github.com/subit93/password-generator-stlc.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.49.0.windows.1'
+ > git.exe fetch --tags --force --progress -- https://github.com/subit93/password-generator-stlc.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/feature/stlc-phase3^{commit}" # timeout=10
+Checking out Revision 69fa7982975a91a38922ec015f6e8ae93dde701c (refs/remotes/origin/feature/stlc-phase3)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 69fa7982975a91a38922ec015f6e8ae93dde701c # timeout=10
+Commit message: "fix: resolve all remaining app behaviour gaps and test mismatches"
+ > git.exe rev-list --no-walk e6dc51a717343d409840dd7a233c2f772a678280 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Tool Install)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Jenkins\workspace\PWG-Automation\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/subit93/password-generator-stlc.git # timeout=10
+Fetching upstream changes from https://github.com/subit93/password-generator-stlc.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.49.0.windows.1'
+ > git.exe fetch --tags --force --progress -- https://github.com/subit93/password-generator-stlc.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/feature/stlc-phase3^{commit}" # timeout=10
+Checking out Revision 69fa7982975a91a38922ec015f6e8ae93dde701c (refs/remotes/origin/feature/stlc-phase3)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 69fa7982975a91a38922ec015f6e8ae93dde701c # timeout=10
+Commit message: "fix: resolve all remaining app behaviour gaps and test mismatches"
+[Pipeline] echo
+Branch: feature/stlc-phase3
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build & Compile)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] dir
+Running in C:\Jenkins\workspace\PWG-Automation\pwg-automation
+[Pipeline] {
+[Pipeline] sh
++ mvn clean test-compile -q
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Tests)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] dir
+Running in C:\Jenkins\workspace\PWG-Automation\pwg-automation
+[Pipeline] {
+[Pipeline] sh
++ mvn clean test -Dbrowser=edge-headless -DbaseUrl=http://localhost:3000 -Dmaven.test.failure.ignore=true
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.pwg:pwg-automation >-----------------------
+[INFO] Building PWG Password Generator � Automation Test Suite 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ pwg-automation ---
+[INFO] Deleting C:\Jenkins\workspace\PWG-Automation\pwg-automation\target
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ pwg-automation ---
+[INFO] skip non existing resourceDirectory C:\Jenkins\workspace\PWG-Automation\pwg-automation\src\main\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ pwg-automation ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ pwg-automation ---
+[INFO] Copying 7 resources from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ pwg-automation ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 18 source files with javac [debug target 21] to target\test-classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ pwg-automation ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junit4.JUnit4Provider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.pwg.automation.runner.TestRunner
+
+@bulk @TC-BLK-01
+Scenario Outline: Bulk count slider controls how many passwords are generated     # src/test/resources/features/bulk.feature:22
+Jun 19, 2026 12:36:27 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:27 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the bulk count slider is set to 1                                         # com.pwg.automation.steps.BulkSteps.setBulkCount(int)
+  When the user clicks the "Bulk Generate" button                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the bulk output list contains exactly 1 passwords                          # com.pwg.automation.steps.BulkSteps.bulkListContainsExactly(int)
+  And the bulk count display badge shows "1"                                      # com.pwg.automation.steps.BulkSteps.bulkCountBadge(java.lang.String)
+
+@bulk @TC-BLK-01
+Scenario Outline: Bulk count slider controls how many passwords are generated     # src/test/resources/features/bulk.feature:23
+Jun 19, 2026 12:36:28 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:28 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the bulk count slider is set to 5                                         # com.pwg.automation.steps.BulkSteps.setBulkCount(int)
+  When the user clicks the "Bulk Generate" button                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the bulk output list contains exactly 5 passwords                          # com.pwg.automation.steps.BulkSteps.bulkListContainsExactly(int)
+  And the bulk count display badge shows "5"                                      # com.pwg.automation.steps.BulkSteps.bulkCountBadge(java.lang.String)
+
+@bulk @TC-BLK-01
+Scenario Outline: Bulk count slider controls how many passwords are generated     # src/test/resources/features/bulk.feature:24
+Jun 19, 2026 12:36:30 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:30 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the bulk count slider is set to 10                                        # com.pwg.automation.steps.BulkSteps.setBulkCount(int)
+  When the user clicks the "Bulk Generate" button                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the bulk output list contains exactly 10 passwords                         # com.pwg.automation.steps.BulkSteps.bulkListContainsExactly(int)
+  And the bulk count display badge shows "10"                                     # com.pwg.automation.steps.BulkSteps.bulkCountBadge(java.lang.String)
+
+@bulk @TC-BLK-01
+Scenario Outline: Bulk count slider controls how many passwords are generated     # src/test/resources/features/bulk.feature:25
+Jun 19, 2026 12:36:31 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:31 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the bulk count slider is set to 50                                        # com.pwg.automation.steps.BulkSteps.setBulkCount(int)
+  When the user clicks the "Bulk Generate" button                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the bulk output list contains exactly 50 passwords                         # com.pwg.automation.steps.BulkSteps.bulkListContainsExactly(int)
+  And the bulk count display badge shows "50"                                     # com.pwg.automation.steps.BulkSteps.bulkCountBadge(java.lang.String)
+
+@bulk @TC-BLK-01
+Scenario Outline: Bulk count slider controls how many passwords are generated     # src/test/resources/features/bulk.feature:26
+Jun 19, 2026 12:36:32 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:32 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the bulk count slider is set to 100                                       # com.pwg.automation.steps.BulkSteps.setBulkCount(int)
+  When the user clicks the "Bulk Generate" button                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the bulk output list contains exactly 100 passwords                        # com.pwg.automation.steps.BulkSteps.bulkListContainsExactly(int)
+  And the bulk count display badge shows "100"                                    # com.pwg.automation.steps.BulkSteps.bulkCountBadge(java.lang.String)
+
+@bulk @TC-BLK-02
+Scenario: All generated bulk passwords are displayed in the output list           # src/test/resources/features/bulk.feature:30
+Jun 19, 2026 12:36:33 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:33 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the bulk count slider is set to 10                                        # com.pwg.automation.steps.BulkSteps.setBulkCount(int)
+  When the user clicks the "Bulk Generate" button                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the bulk output list is visible                                            # com.pwg.automation.steps.BulkSteps.bulkListVisible()
+  And the bulk output list contains 10 password entries                           # com.pwg.automation.steps.BulkSteps.bulkListContainsEntries(int)
+  And each entry is a non-empty string                                            # com.pwg.automation.steps.BulkSteps.eachEntryNonEmpty()
+
+@bulk @TC-BLK-03
+Scenario: Export button downloads bulk passwords as a text file                   # src/test/resources/features/bulk.feature:39
+Jun 19, 2026 12:36:34 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:34 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given 10 passwords have been bulk generated                                     # com.pwg.automation.steps.BulkSteps.bulkPasswordsGenerated(int)
+  When the user clicks the "Export" button                                        # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then a file download is triggered                                               # com.pwg.automation.steps.BulkSteps.fileDownloadTriggered()
+  And the downloaded file contains 10 passwords, one per line                     # com.pwg.automation.steps.BulkSteps.downloadedFileContains(int)
+
+@bulk @TC-BLK-04
+Scenario: Clear button removes all passwords from the bulk output list            # src/test/resources/features/bulk.feature:47
+Jun 19, 2026 12:36:37 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:37 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given 10 passwords have been bulk generated and are visible in the list         # com.pwg.automation.steps.BulkSteps.bulkPasswordsGeneratedAndVisible(int)
+  When the user clicks the "Bulk Clear" button                                    # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the bulk output list is empty                                              # com.pwg.automation.steps.BulkSteps.bulkListEmpty()
+  And no passwords are displayed                                                  # com.pwg.automation.steps.BulkSteps.noPasswordsDisplayed()
+
+@bulk @TC-BLK-05
+Scenario: Bulk passwords contain only uppercase when only Uppercase is selected   # src/test/resources/features/bulk.feature:55
+Jun 19, 2026 12:36:38 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:38 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the Uppercase toggle is ON                                                # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And all other character set toggles are OFF                                     # com.pwg.automation.steps.CommonSteps.allOtherToggleOff()
+  And the bulk count slider is set to 5                                           # com.pwg.automation.steps.BulkSteps.setBulkCount(int)
+  When the user clicks the "Bulk Generate" button                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then all 5 generated passwords contain only uppercase characters (A-Z)          # com.pwg.automation.steps.BulkSteps.allBulkPasswordsUppercase(int)
+      java.lang.AssertionError: Bulk count mismatch expected:<5> but was:<0>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at com.pwg.automation.steps.BulkSteps.allBulkPasswordsUppercase(BulkSteps.java:95)
+	at ?.all 5 generated passwords contain only uppercase characters (A-Z)(file:///C:/Jenkins/workspace/PWG-Automation/pwg-automation/src/test/resources/features/bulk.feature:60)
+
+
+    Embedding Screenshot on failure [image/png 27935 bytes]
+
+
+@bulk @TC-BLK-06
+Scenario: Bulk passwords respect length setting from Generator tab                # src/test/resources/features/bulk.feature:63
+Jun 19, 2026 12:36:40 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:40 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the length slider in the Generator tab is set to 20                       # com.pwg.automation.steps.CommonSteps.setLengthSliderGeneratorTab(int)
+  And the bulk count slider is set to 5                                           # com.pwg.automation.steps.BulkSteps.setBulkCount(int)
+  When the user clicks the "Bulk Generate" button                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+      org.openqa.selenium.ElementNotInteractableException: element not interactable
+  (Session info: MicrosoftEdge=149.0.4022.69)
+Build info: version: '4.21.0', revision: '79ed462ef4'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Command: [e3af2d6e872ffd26cd725a861dc9b0c4, clickElement {id=f.3EA91A9A3075AA7798A7D9685DD8354B.d.5F08F730C617F6CD0F2147164BC4DA52.e.12}]
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 149.0.4022.69, fedcm:accounts: true, goog:processID: 16444, ms:edgeOptions: {debuggerAddress: localhost:54542}, msedge: {msedgedriverVersion: 149.0.4022.69 (6c7df6d8a61d..., userDataDir: C:\Users\SUBIT_~1\AppData\L...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54542/devtoo..., se:cdpVersion: 149.0.4022.69, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Element: [[EdgeDriver: MicrosoftEdge on windows (e3af2d6e872ffd26cd725a861dc9b0c4)] -> id: bulk-generate-btn]
+Session ID: e3af2d6e872ffd26cd725a861dc9b0c4
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+	at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:190)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:518)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:223)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:76)
+	at com.pwg.automation.steps.CommonSteps.clickButton(CommonSteps.java:69)
+	at ?.the user clicks the "Bulk Generate" button(file:///C:/Jenkins/workspace/PWG-Automation/pwg-automation/src/test/resources/features/bulk.feature:66)
+
+  Then all 5 generated passwords are exactly 20 characters long                   # com.pwg.automation.steps.BulkSteps.allBulkPasswordsExactLength(int,int)
+
+    Embedding Screenshot on failure [image/png 23988 bytes]
+
+
+@bulk @TC-BLK-07
+Scenario: All bulk generated passwords are unique                                 # src/test/resources/features/bulk.feature:70
+Jun 19, 2026 12:36:41 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:41 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Bulk" tab                                              # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the bulk count slider is set to 20                                        # com.pwg.automation.steps.BulkSteps.setBulkCount(int)
+  And all character sets are ON                                                   # com.pwg.automation.steps.CommonSteps.allCharacterSetsOn()
+  And the length slider is set to 16                                              # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Bulk Generate" button                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then all 20 passwords in the list are unique (no duplicates)                    # com.pwg.automation.steps.BulkSteps.allBulkPasswordsUnique(int)
+
+@generator @TC-GEN-01
+Scenario: Generate password with default settings                                                         # src/test/resources/features/generator.feature:14
+Jun 19, 2026 12:36:43 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:43 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"                         # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                                         # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given all default settings are applied (length=16, uppercase ON, lowercase ON, numbers ON, symbols OFF) # com.pwg.automation.steps.CommonSteps.applyDefaultSettings()
+  When the user clicks the "Generate" button                                                              # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then a password of exactly 16 characters is displayed in the output box                                 # com.pwg.automation.steps.GeneratorSteps.passwordLengthInOutputBox(int)
+
+@generator @TC-GEN-02
+Scenario Outline: Generate password at boundary lengths                           # src/test/resources/features/generator.feature:29
+Jun 19, 2026 12:36:44 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:44 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 8                                             # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then a password of exactly 8 characters is displayed                            # com.pwg.automation.steps.GeneratorSteps.passwordLength(int)
+  And the length badge shows "8"                                                  # com.pwg.automation.steps.GeneratorSteps.lengthBadgeShows(java.lang.String)
+
+@generator @TC-GEN-02
+Scenario Outline: Generate password at boundary lengths                           # src/test/resources/features/generator.feature:30
+Jun 19, 2026 12:36:45 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:45 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 12                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then a password of exactly 12 characters is displayed                           # com.pwg.automation.steps.GeneratorSteps.passwordLength(int)
+  And the length badge shows "12"                                                 # com.pwg.automation.steps.GeneratorSteps.lengthBadgeShows(java.lang.String)
+
+@generator @TC-GEN-02
+Scenario Outline: Generate password at boundary lengths                           # src/test/resources/features/generator.feature:31
+Jun 19, 2026 12:36:47 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:47 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 16                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then a password of exactly 16 characters is displayed                           # com.pwg.automation.steps.GeneratorSteps.passwordLength(int)
+  And the length badge shows "16"                                                 # com.pwg.automation.steps.GeneratorSteps.lengthBadgeShows(java.lang.String)
+
+@generator @TC-GEN-02
+Scenario Outline: Generate password at boundary lengths                           # src/test/resources/features/generator.feature:32
+Jun 19, 2026 12:36:48 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:48 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 32                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then a password of exactly 32 characters is displayed                           # com.pwg.automation.steps.GeneratorSteps.passwordLength(int)
+  And the length badge shows "32"                                                 # com.pwg.automation.steps.GeneratorSteps.lengthBadgeShows(java.lang.String)
+
+@generator @TC-GEN-02
+Scenario Outline: Generate password at boundary lengths                           # src/test/resources/features/generator.feature:33
+Jun 19, 2026 12:36:49 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:49 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 64                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then a password of exactly 64 characters is displayed                           # com.pwg.automation.steps.GeneratorSteps.passwordLength(int)
+  And the length badge shows "64"                                                 # com.pwg.automation.steps.GeneratorSteps.lengthBadgeShows(java.lang.String)
+
+@generator @TC-GEN-05
+Scenario: Generated password contains uppercase characters when Uppercase is ON   # src/test/resources/features/generator.feature:37
+Jun 19, 2026 12:36:50 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:50 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the Uppercase toggle is ON                                                # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And the Lowercase toggle is OFF                                                 # com.pwg.automation.steps.CommonSteps.setLowercaseToggle(java.lang.String)
+  And the Numbers toggle is OFF                                                   # com.pwg.automation.steps.CommonSteps.setNumbersToggle(java.lang.String)
+  And the Symbols toggle is OFF                                                   # com.pwg.automation.steps.CommonSteps.setSymbolsToggle(java.lang.String)
+  And the length slider is set to 20                                              # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated password contains only uppercase characters (A-Z)            # com.pwg.automation.steps.GeneratorSteps.passwordOnlyUppercase()
+
+@generator @TC-GEN-06
+Scenario: Generated password contains lowercase characters when Lowercase is ON   # src/test/resources/features/generator.feature:48
+Jun 19, 2026 12:36:51 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:51 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the Lowercase toggle is ON                                                # com.pwg.automation.steps.CommonSteps.setLowercaseToggle(java.lang.String)
+  And the Uppercase toggle is OFF                                                 # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And the Numbers toggle is OFF                                                   # com.pwg.automation.steps.CommonSteps.setNumbersToggle(java.lang.String)
+  And the Symbols toggle is OFF                                                   # com.pwg.automation.steps.CommonSteps.setSymbolsToggle(java.lang.String)
+  And the length slider is set to 20                                              # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated password contains only lowercase characters (a-z)            # com.pwg.automation.steps.GeneratorSteps.passwordOnlyLowercase()
+
+@generator @TC-GEN-07
+Scenario: Generated password contains numbers when Numbers is ON                  # src/test/resources/features/generator.feature:59
+Jun 19, 2026 12:36:53 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:53 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the Numbers toggle is ON                                                  # com.pwg.automation.steps.CommonSteps.setNumbersToggle(java.lang.String)
+  And the Uppercase toggle is OFF                                                 # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And the Lowercase toggle is OFF                                                 # com.pwg.automation.steps.CommonSteps.setLowercaseToggle(java.lang.String)
+  And the Symbols toggle is OFF                                                   # com.pwg.automation.steps.CommonSteps.setSymbolsToggle(java.lang.String)
+  And the length slider is set to 20                                              # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated password contains only numeric characters (0-9)              # com.pwg.automation.steps.GeneratorSteps.passwordOnlyNumeric()
+
+@generator @TC-GEN-08
+Scenario: Generated password contains symbols when Symbols is ON                  # src/test/resources/features/generator.feature:70
+Jun 19, 2026 12:36:54 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:54 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the Symbols toggle is ON                                                  # com.pwg.automation.steps.CommonSteps.setSymbolsToggle(java.lang.String)
+  And the Uppercase toggle is OFF                                                 # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And the Lowercase toggle is OFF                                                 # com.pwg.automation.steps.CommonSteps.setLowercaseToggle(java.lang.String)
+  And the Numbers toggle is OFF                                                   # com.pwg.automation.steps.CommonSteps.setNumbersToggle(java.lang.String)
+  And the length slider is set to 20                                              # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated password contains only symbol characters                     # com.pwg.automation.steps.GeneratorSteps.passwordOnlySymbols()
+
+@generator @TC-GEN-09
+Scenario: Ambiguous characters are excluded when Exclude Ambiguous is ON            # src/test/resources/features/generator.feature:81
+Jun 19, 2026 12:36:55 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:55 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"   # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                   # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given all character sets are ON                                                   # com.pwg.automation.steps.CommonSteps.allCharacterSetsOn()
+  And the "Exclude Ambiguous" option is ON                                          # com.pwg.automation.steps.CommonSteps.setOption(java.lang.String,java.lang.String)
+  And the length slider is set to 64                                                # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                        # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated password does not contain any of the characters: O, 0, l, 1, I # com.pwg.automation.steps.GeneratorSteps.passwordNoAmbiguousChars()
+
+@generator @TC-GEN-10
+Scenario: Password contains at least one char from each selected set when Require Each is ON # src/test/resources/features/generator.feature:90
+Jun 19, 2026 12:36:57 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:57 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"            # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                            # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the Uppercase toggle is ON                                                           # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And the Lowercase toggle is ON                                                             # com.pwg.automation.steps.CommonSteps.setLowercaseToggle(java.lang.String)
+  And the Numbers toggle is ON                                                               # com.pwg.automation.steps.CommonSteps.setNumbersToggle(java.lang.String)
+  And the Symbols toggle is ON                                                               # com.pwg.automation.steps.CommonSteps.setSymbolsToggle(java.lang.String)
+  And the "Require Each" option is ON                                                        # com.pwg.automation.steps.CommonSteps.setOption(java.lang.String,java.lang.String)
+  And the length slider is set to 16                                                         # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  When the user clicks the "Generate" button                                                 # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated password contains at least one uppercase character                      # com.pwg.automation.steps.GeneratorSteps.passwordHasUppercase()
+  And the generated password contains at least one lowercase character                       # com.pwg.automation.steps.GeneratorSteps.passwordHasLowercase()
+  And the generated password contains at least one number                                    # com.pwg.automation.steps.GeneratorSteps.passwordHasNumber()
+  And the generated password contains at least one symbol                                    # com.pwg.automation.steps.GeneratorSteps.passwordHasSymbol()
+
+@generator @TC-GEN-11
+Scenario: Generated password is displayed in the output box                       # src/test/resources/features/generator.feature:105
+Jun 19, 2026 12:36:58 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:58 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the output box becomes visible                                             # com.pwg.automation.steps.GeneratorSteps.outputBoxVisible()
+  And the password text element is not empty                                      # com.pwg.automation.steps.GeneratorSteps.passwordTextNotEmpty()
+
+@generator @TC-GEN-12
+Scenario: Copy button copies password to clipboard                                # src/test/resources/features/generator.feature:112
+Jun 19, 2026 12:36:59 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:36:59 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given a password has been generated                                             # com.pwg.automation.steps.GeneratorSteps.aPasswordHasBeenGenerated()
+  When the user clicks the "Copy" button                                          # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the clipboard contains the generated password text                         # com.pwg.automation.steps.GeneratorSteps.clipboardHasPassword()
+  And a success toast or confirmation is shown                                    # com.pwg.automation.steps.GeneratorSteps.successToastShown()
+
+@generator @TC-GEN-13
+Scenario: Show/Hide toggle masks and unmasks the password                         # src/test/resources/features/generator.feature:120
+Jun 19, 2026 12:37:01 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:01 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given a password has been generated                                             # com.pwg.automation.steps.GeneratorSteps.aPasswordHasBeenGenerated()
+  And the password is currently hidden (masked)                                   # com.pwg.automation.steps.GeneratorSteps.passwordCurrentlyHidden()
+  When the user clicks the "Show/Hide" button                                     # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the password text becomes visible (unmasked)                               # com.pwg.automation.steps.GeneratorSteps.passwordVisible()
+  When the user clicks the "Show/Hide" button again                               # com.pwg.automation.steps.CommonSteps.clickButtonAgain(java.lang.String)
+  Then the password text is masked again                                          # com.pwg.automation.steps.GeneratorSteps.passwordMasked()
+
+@generator @TC-GEN-14
+Scenario: Regenerate button produces a different password                         # src/test/resources/features/generator.feature:130
+Jun 19, 2026 12:37:02 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:02 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given a password has been generated and displayed                               # com.pwg.automation.steps.GeneratorSteps.passwordGeneratedAndDisplayed()
+  When the user clicks the "Regenerate" button                                    # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then a new password is generated                                                # com.pwg.automation.steps.GeneratorSteps.newPasswordGenerated()
+  And the new password is different from the previous password                    # com.pwg.automation.steps.GeneratorSteps.newPasswordDifferentFromPrevious()
+
+@generator @TC-GEN-15
+Scenario Outline: Warning shown for passwords shorter than 12 characters          # src/test/resources/features/generator.feature:144
+Jun 19, 2026 12:37:04 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:04 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 8                                             # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  Then the short-password warning box is visible                                  # com.pwg.automation.steps.GeneratorSteps.shortWarningVisibility(java.lang.String)
+
+@generator @TC-GEN-15
+Scenario Outline: Warning shown for passwords shorter than 12 characters          # src/test/resources/features/generator.feature:145
+Jun 19, 2026 12:37:05 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:05 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 10                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  Then the short-password warning box is visible                                  # com.pwg.automation.steps.GeneratorSteps.shortWarningVisibility(java.lang.String)
+
+@generator @TC-GEN-15
+Scenario Outline: Warning shown for passwords shorter than 12 characters          # src/test/resources/features/generator.feature:146
+Jun 19, 2026 12:37:06 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:06 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 11                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  Then the short-password warning box is visible                                  # com.pwg.automation.steps.GeneratorSteps.shortWarningVisibility(java.lang.String)
+
+@generator @TC-GEN-15
+Scenario Outline: Warning shown for passwords shorter than 12 characters          # src/test/resources/features/generator.feature:147
+Jun 19, 2026 12:37:07 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:07 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 12                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  Then the short-password warning box is hidden                                   # com.pwg.automation.steps.GeneratorSteps.shortWarningVisibility(java.lang.String)
+
+@generator @TC-GEN-15
+Scenario Outline: Warning shown for passwords shorter than 12 characters          # src/test/resources/features/generator.feature:148
+Jun 19, 2026 12:37:08 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:08 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 16                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  Then the short-password warning box is hidden                                   # com.pwg.automation.steps.GeneratorSteps.shortWarningVisibility(java.lang.String)
+
+@history @TC-HIST-01
+Scenario: Generated password is added to the history list immediately             # src/test/resources/features/history.feature:14
+Jun 19, 2026 12:37:09 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:09 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And localStorage has been cleared before the test                               # com.pwg.automation.steps.CommonSteps.clearLocalStorageBeforeTest()
+  Given the Generator tab is active                                               # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  And the history list is empty                                                   # com.pwg.automation.steps.HistorySteps.historyListIsEmpty()
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  And the user clicks the "History" tab                                           # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Then the history list contains exactly 1 entry                                  # com.pwg.automation.steps.HistorySteps.historyListContainsExact(int)
+  And the entry matches the last generated password                               # com.pwg.automation.steps.HistorySteps.entryMatchesLastPassword()
+
+@history @TC-HIST-02
+Scenario: Multiple generated passwords all appear in the history list             # src/test/resources/features/history.feature:24
+Jun 19, 2026 12:37:10 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:10 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And localStorage has been cleared before the test                               # com.pwg.automation.steps.CommonSteps.clearLocalStorageBeforeTest()
+  Given the Generator tab is active                                               # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  When the user generates 5 passwords sequentially                                # com.pwg.automation.steps.HistorySteps.generatePasswordsSequentially(int)
+  And the user clicks the "History" tab                                           # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Then the history list contains exactly 5 entries                                # com.pwg.automation.steps.HistorySteps.historyListContainsExactPlural(int)
+  And entries are displayed in chronological order (most recent first or last)    # com.pwg.automation.steps.HistorySteps.entriesInChronologicalOrder()
+
+@history @TC-HIST-03
+Scenario: History entries survive a page reload                                   # src/test/resources/features/history.feature:33
+Jun 19, 2026 12:37:12 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:12 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And localStorage has been cleared before the test                               # com.pwg.automation.steps.CommonSteps.clearLocalStorageBeforeTest()
+  Given 3 passwords have been generated and stored in history                     # com.pwg.automation.steps.HistorySteps.passwordsGeneratedAndStoredInHistory(int)
+  When the user reloads the page                                                  # com.pwg.automation.steps.HistorySteps.reloadPage()
+  And the user clicks the "History" tab                                           # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Then the history list still contains 3 entries                                  # com.pwg.automation.steps.HistorySteps.historyStillContainsEntries(int)
+  And the entries match the previously generated passwords                        # com.pwg.automation.steps.HistorySteps.entriesMatchPreviouslyGenerated()
+
+@history @TC-HIST-04
+Scenario: Clear History button removes all history entries                        # src/test/resources/features/history.feature:42
+Jun 19, 2026 12:37:13 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:13 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And localStorage has been cleared before the test                               # com.pwg.automation.steps.CommonSteps.clearLocalStorageBeforeTest()
+  Given 5 passwords have been generated and are visible in the history list       # com.pwg.automation.steps.HistorySteps.passwordsGeneratedAndVisibleInHistory(int)
+  When the user clicks the "History" tab                                          # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  And the user clicks the "Clear History" button                                  # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the history list is empty                                                  # com.pwg.automation.steps.HistorySteps.historyListIsEmpty()
+  And localStorage no longer contains any password history data                   # com.pwg.automation.steps.HistorySteps.localStorageNoHistoryData()
+
+@history @TC-HIST-05
+Scenario: Empty state is displayed when history is empty on first load            # src/test/resources/features/history.feature:51
+Jun 19, 2026 12:37:15 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:15 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And localStorage has been cleared before the test                               # com.pwg.automation.steps.CommonSteps.clearLocalStorageBeforeTest()
+  Given localStorage has no stored password history                               # com.pwg.automation.steps.CommonSteps.localStorageNoHistory()
+  When the user clicks the "History" tab                                          # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Then the history list shows an empty state message or empty list                # com.pwg.automation.steps.HistorySteps.historyShowsEmptyState()
+  And no password entries are visible                                             # com.pwg.automation.steps.HistorySteps.noPasswordEntriesVisible()
+
+@history @TC-HIST-06
+Scenario: localStorage stores the generated password after generation             # src/test/resources/features/history.feature:59
+Jun 19, 2026 12:37:16 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:16 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And localStorage has been cleared before the test                               # com.pwg.automation.steps.CommonSteps.clearLocalStorageBeforeTest()
+  Given the Generator tab is active                                               # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  When the user generates a password                                              # com.pwg.automation.steps.HistorySteps.generateASinglePassword()
+  Then localStorage contains a history key with the generated password stored     # com.pwg.automation.steps.HistorySteps.localStorageContainsHistoryKey()
+
+@passphrase @TC-PH-01
+Scenario Outline: Passphrase is generated with the correct number of words        # src/test/resources/features/passphrase.feature:22
+Jun 19, 2026 12:37:17 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:17 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Passphrase" tab                                        # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the phrase count slider is set to 2                                       # com.pwg.automation.steps.PassphraseSteps.setPhraseCount(int)
+  When the user clicks the "Generate Passphrase" button                           # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated passphrase contains exactly 2 words                          # com.pwg.automation.steps.PassphraseSteps.passphraseWordCount(int)
+  And the phrase count display badge shows "2"                                    # com.pwg.automation.steps.PassphraseSteps.phraseCountBadge(java.lang.String)
+
+@passphrase @TC-PH-01
+Scenario Outline: Passphrase is generated with the correct number of words        # src/test/resources/features/passphrase.feature:23
+Jun 19, 2026 12:37:19 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:19 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Passphrase" tab                                        # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the phrase count slider is set to 3                                       # com.pwg.automation.steps.PassphraseSteps.setPhraseCount(int)
+  When the user clicks the "Generate Passphrase" button                           # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated passphrase contains exactly 3 words                          # com.pwg.automation.steps.PassphraseSteps.passphraseWordCount(int)
+  And the phrase count display badge shows "3"                                    # com.pwg.automation.steps.PassphraseSteps.phraseCountBadge(java.lang.String)
+
+@passphrase @TC-PH-01
+Scenario Outline: Passphrase is generated with the correct number of words        # src/test/resources/features/passphrase.feature:24
+Jun 19, 2026 12:37:20 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:20 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Passphrase" tab                                        # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the phrase count slider is set to 4                                       # com.pwg.automation.steps.PassphraseSteps.setPhraseCount(int)
+  When the user clicks the "Generate Passphrase" button                           # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated passphrase contains exactly 4 words                          # com.pwg.automation.steps.PassphraseSteps.passphraseWordCount(int)
+  And the phrase count display badge shows "4"                                    # com.pwg.automation.steps.PassphraseSteps.phraseCountBadge(java.lang.String)
+
+@passphrase @TC-PH-01
+Scenario Outline: Passphrase is generated with the correct number of words        # src/test/resources/features/passphrase.feature:25
+Jun 19, 2026 12:37:22 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:22 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Passphrase" tab                                        # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the phrase count slider is set to 6                                       # com.pwg.automation.steps.PassphraseSteps.setPhraseCount(int)
+  When the user clicks the "Generate Passphrase" button                           # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated passphrase contains exactly 6 words                          # com.pwg.automation.steps.PassphraseSteps.passphraseWordCount(int)
+  And the phrase count display badge shows "6"                                    # com.pwg.automation.steps.PassphraseSteps.phraseCountBadge(java.lang.String)
+
+@passphrase @TC-PH-01
+Scenario Outline: Passphrase is generated with the correct number of words        # src/test/resources/features/passphrase.feature:26
+Jun 19, 2026 12:37:23 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:23 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Passphrase" tab                                        # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the phrase count slider is set to 8                                       # com.pwg.automation.steps.PassphraseSteps.setPhraseCount(int)
+  When the user clicks the "Generate Passphrase" button                           # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the generated passphrase contains exactly 8 words                          # com.pwg.automation.steps.PassphraseSteps.passphraseWordCount(int)
+  And the phrase count display badge shows "8"                                    # com.pwg.automation.steps.PassphraseSteps.phraseCountBadge(java.lang.String)
+
+@passphrase @TC-PH-02
+Scenario: All words in the passphrase are from the known word list                # src/test/resources/features/passphrase.feature:30
+Jun 19, 2026 12:37:24 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:24 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Passphrase" tab                                        # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the phrase count slider is set to 4                                       # com.pwg.automation.steps.PassphraseSteps.setPhraseCount(int)
+  When the user clicks the "Generate Passphrase" button                           # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then each word in the passphrase exists in the application's known WORDS list   # com.pwg.automation.steps.PassphraseSteps.eachWordInKnownList()
+  And no word in the passphrase is a number or symbol                             # com.pwg.automation.steps.PassphraseSteps.noWordIsNumberOrSymbol()
+
+@passphrase @TC-PH-03
+Scenario: Copy button copies the passphrase to clipboard                          # src/test/resources/features/passphrase.feature:38
+Jun 19, 2026 12:37:25 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:25 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Passphrase" tab                                        # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given a passphrase has been generated                                           # com.pwg.automation.steps.PassphraseSteps.aPassphraseHasBeenGenerated()
+  When the user clicks the "Passphrase Copy" button                               # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the clipboard contains the full generated passphrase text                  # com.pwg.automation.steps.PassphraseSteps.clipboardHasPassphrase()
+  And a success toast or confirmation is shown                                    # com.pwg.automation.steps.GeneratorSteps.successToastShown()
+
+@passphrase @TC-PH-04
+Scenario: Generated passphrase is displayed in the passphrase output box          # src/test/resources/features/passphrase.feature:46
+Jun 19, 2026 12:37:27 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:27 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Passphrase" tab                                        # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the phrase count slider is set to 4                                       # com.pwg.automation.steps.PassphraseSteps.setPhraseCount(int)
+  When the user clicks the "Generate Passphrase" button                           # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the passphrase output box becomes visible                                  # com.pwg.automation.steps.PassphraseSteps.passphraseOutputBoxVisible()
+  And the passphrase text element is not empty                                    # com.pwg.automation.steps.PassphraseSteps.passphraseTextNotEmpty()
+
+@passphrase @TC-PH-05
+Scenario: Clicking Generate again produces a different passphrase                 # src/test/resources/features/passphrase.feature:54
+Jun 19, 2026 12:37:28 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:28 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the user clicks the "Passphrase" tab                                        # com.pwg.automation.steps.CommonSteps.clickTab(java.lang.String)
+  Given the phrase count slider is set to 4                                       # com.pwg.automation.steps.PassphraseSteps.setPhraseCount(int)
+  And the user has already generated a passphrase                                 # com.pwg.automation.steps.PassphraseSteps.userHasAlreadyGeneratedPassphrase()
+  And the first passphrase is recorded                                            # com.pwg.automation.steps.PassphraseSteps.recordFirstPassphrase()
+  When the user clicks the "Generate Passphrase" button again                     # com.pwg.automation.steps.CommonSteps.clickButtonAgain(java.lang.String)
+  Then the new passphrase is different from the previously recorded passphrase    # com.pwg.automation.steps.PassphraseSteps.newPassphraseDifferent()
+
+@presets @TC-PRE-01 @TC-PRE-02 @TC-PRE-03 @TC-PRE-04
+Scenario Outline: Clicking a preset applies the correct length and charset configuration # src/test/resources/features/presets.feature:24
+Jun 19, 2026 12:37:29 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:29 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"        # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                        # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  When the user clicks the "Social" preset button                                        # com.pwg.automation.steps.CommonSteps.clickPresetButton(java.lang.String)
+  Then the length slider is set to 12 (approximately)                                    # com.pwg.automation.steps.PresetsSteps.lengthSliderApproximately(int)
+  And the Uppercase toggle is ON                                                         # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And the Lowercase toggle is ON                                                         # com.pwg.automation.steps.CommonSteps.setLowercaseToggle(java.lang.String)
+  And the Numbers toggle is ON                                                           # com.pwg.automation.steps.CommonSteps.setNumbersToggle(java.lang.String)
+  And the Symbols toggle is OFF                                                          # com.pwg.automation.steps.CommonSteps.setSymbolsToggle(java.lang.String)
+
+@presets @TC-PRE-01 @TC-PRE-02 @TC-PRE-03 @TC-PRE-04
+Scenario Outline: Clicking a preset applies the correct length and charset configuration # src/test/resources/features/presets.feature:25
+Jun 19, 2026 12:37:31 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:31 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"        # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                        # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  When the user clicks the "Banking" preset button                                       # com.pwg.automation.steps.CommonSteps.clickPresetButton(java.lang.String)
+  Then the length slider is set to 16 (approximately)                                    # com.pwg.automation.steps.PresetsSteps.lengthSliderApproximately(int)
+  And the Uppercase toggle is ON                                                         # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And the Lowercase toggle is ON                                                         # com.pwg.automation.steps.CommonSteps.setLowercaseToggle(java.lang.String)
+  And the Numbers toggle is ON                                                           # com.pwg.automation.steps.CommonSteps.setNumbersToggle(java.lang.String)
+  And the Symbols toggle is ON                                                           # com.pwg.automation.steps.CommonSteps.setSymbolsToggle(java.lang.String)
+
+@presets @TC-PRE-01 @TC-PRE-02 @TC-PRE-03 @TC-PRE-04
+Scenario Outline: Clicking a preset applies the correct length and charset configuration # src/test/resources/features/presets.feature:26
+Jun 19, 2026 12:37:32 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:32 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"        # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                        # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  When the user clicks the "Work" preset button                                          # com.pwg.automation.steps.CommonSteps.clickPresetButton(java.lang.String)
+  Then the length slider is set to 14 (approximately)                                    # com.pwg.automation.steps.PresetsSteps.lengthSliderApproximately(int)
+  And the Uppercase toggle is ON                                                         # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And the Lowercase toggle is ON                                                         # com.pwg.automation.steps.CommonSteps.setLowercaseToggle(java.lang.String)
+  And the Numbers toggle is ON                                                           # com.pwg.automation.steps.CommonSteps.setNumbersToggle(java.lang.String)
+  And the Symbols toggle is OFF                                                          # com.pwg.automation.steps.CommonSteps.setSymbolsToggle(java.lang.String)
+
+@presets @TC-PRE-01 @TC-PRE-02 @TC-PRE-03 @TC-PRE-04
+Scenario Outline: Clicking a preset applies the correct length and charset configuration # src/test/resources/features/presets.feature:27
+Jun 19, 2026 12:37:33 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:33 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"        # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                        # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  When the user clicks the "Super Secure" preset button                                  # com.pwg.automation.steps.CommonSteps.clickPresetButton(java.lang.String)
+  Then the length slider is set to 32 (approximately)                                    # com.pwg.automation.steps.PresetsSteps.lengthSliderApproximately(int)
+  And the Uppercase toggle is ON                                                         # com.pwg.automation.steps.CommonSteps.setUppercaseToggle(java.lang.String)
+  And the Lowercase toggle is ON                                                         # com.pwg.automation.steps.CommonSteps.setLowercaseToggle(java.lang.String)
+  And the Numbers toggle is ON                                                           # com.pwg.automation.steps.CommonSteps.setNumbersToggle(java.lang.String)
+  And the Symbols toggle is ON                                                           # com.pwg.automation.steps.CommonSteps.setSymbolsToggle(java.lang.String)
+
+@presets @TC-PRE-05
+Scenario: Super Secure preset applies maximum-strength configuration                  # src/test/resources/features/presets.feature:31
+Jun 19, 2026 12:37:34 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:34 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"     # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                     # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  When the user clicks the "Super Secure" preset button                               # com.pwg.automation.steps.CommonSteps.clickPresetButton(java.lang.String)
+  Then all four character set toggles (Uppercase, Lowercase, Numbers, Symbols) are ON # com.pwg.automation.steps.PresetsSteps.allFourTogglesOn()
+  And the "Exclude Ambiguous" option is ON                                            # com.pwg.automation.steps.CommonSteps.setOption(java.lang.String,java.lang.String)
+  And the "Require Each" option is ON                                                 # com.pwg.automation.steps.CommonSteps.setOption(java.lang.String,java.lang.String)
+  And the length slider is set to at least 32                                         # com.pwg.automation.steps.PresetsSteps.lengthSliderAtLeast(int)
+
+@presets @TC-PRE-06
+Scenario: Selecting a preset immediately updates the UI without requiring a separate action # src/test/resources/features/presets.feature:40
+Jun 19, 2026 12:37:35 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:35 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"           # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                           # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the current length is set to 8 and only Lowercase is ON                             # com.pwg.automation.steps.PresetsSteps.setLowercaseOnlyLength8()
+  When the user clicks the "Banking" preset button                                          # com.pwg.automation.steps.CommonSteps.clickPresetButton(java.lang.String)
+  Then the UI updates immediately (no additional button press required)                     # com.pwg.automation.steps.PresetsSteps.uiUpdatesImmediately()
+  And the length slider reflects the Banking preset length                                  # com.pwg.automation.steps.PresetsSteps.lengthSliderReflectsBanking()
+  And the character set toggles reflect the Banking preset configuration                    # com.pwg.automation.steps.PresetsSteps.togglesReflectBanking()
+
+@security @TC-SEC-01
+Scenario: Application uses crypto.getRandomValues() and not Math.random()                          # src/test/resources/features/security.feature:15
+Jun 19, 2026 12:37:37 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:37 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"                  # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                                  # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  And browser network monitoring is active (via browser devtools / WebDriver network interception) # com.pwg.automation.steps.SecuritySteps.networkMonitoringActive()
+  When the page source and all linked JavaScript files are inspected                               # com.pwg.automation.steps.SecuritySteps.inspectPageSource()
+  Then the string "crypto.getRandomValues" is found in the JavaScript source                       # com.pwg.automation.steps.SecuritySteps.stringFoundInJsSource(java.lang.String)
+  And the string "Math.random" is NOT used for password character selection                        # com.pwg.automation.steps.SecuritySteps.stringNotUsedInPasswordSelection(java.lang.String)
+
+@security @TC-SEC-02
+Scenario: No network requests are made when generating a password                                  # src/test/resources/features/security.feature:22
+Jun 19, 2026 12:37:38 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:38 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"                  # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                                  # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  And browser network monitoring is active (via browser devtools / WebDriver network interception) # com.pwg.automation.steps.SecuritySteps.networkMonitoringActive()
+  Given network request monitoring is enabled                                                      # com.pwg.automation.steps.SecuritySteps.enableNetworkRequestMonitoring()
+  When the user clicks the "Generate" button                                                       # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then no external network requests are made during password generation                            # com.pwg.automation.steps.SecuritySteps.noExternalNetworkRequests()
+  And the network request log shows zero new requests after clicking Generate                      # com.pwg.automation.steps.SecuritySteps.networkLogZeroRequests()
+
+@security @TC-SEC-03
+Scenario: Generated password value is not transmitted to any external server                       # src/test/resources/features/security.feature:30
+Jun 19, 2026 12:37:39 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:39 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"                  # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                                  # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  And browser network monitoring is active (via browser devtools / WebDriver network interception) # com.pwg.automation.steps.SecuritySteps.networkMonitoringActive()
+  Given network request monitoring is enabled                                                      # com.pwg.automation.steps.SecuritySteps.enableNetworkRequestMonitoring()
+  When the user generates a password                                                               # com.pwg.automation.steps.HistorySteps.generateASinglePassword()
+  And the user clicks the "Copy" button                                                            # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then no HTTP request body contains the generated password value                                  # com.pwg.automation.steps.SecuritySteps.noRequestBodyContainsPassword()
+  And no XHR or fetch calls are triggered with the password as payload                             # com.pwg.automation.steps.SecuritySteps.noXhrWithPasswordPayload()
+
+@security @TC-SEC-04
+Scenario: Application is fully functional with no internet connection                              # src/test/resources/features/security.feature:39
+Jun 19, 2026 12:37:40 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:40 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"                  # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                                  # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  And browser network monitoring is active (via browser devtools / WebDriver network interception) # com.pwg.automation.steps.SecuritySteps.networkMonitoringActive()
+  Given the browser is set to offline mode                                                         # com.pwg.automation.steps.SecuritySteps.setBrowserOffline()
+  When the user navigates to "http://localhost:3000"                                               # com.pwg.automation.steps.SecuritySteps.userNavigatesTo(java.lang.String)
+  Then the application loads successfully                                                          # com.pwg.automation.steps.SecuritySteps.applicationLoadsSuccessfully()
+  And all tabs (Generator, Bulk, Passphrase, History) are accessible                               # com.pwg.automation.steps.SecuritySteps.allTabsAccessible()
+  And password generation works without any network dependency                                     # com.pwg.automation.steps.SecuritySteps.passwordGenerationOffline()
+
+@security @TC-SEC-05
+Scenario: No external resources (CDN, fonts, APIs) are loaded                                      # src/test/resources/features/security.feature:48
+Jun 19, 2026 12:37:42 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:42 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"                  # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                                  # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  And browser network monitoring is active (via browser devtools / WebDriver network interception) # com.pwg.automation.steps.SecuritySteps.networkMonitoringActive()
+  Given network request monitoring is enabled                                                      # com.pwg.automation.steps.SecuritySteps.enableNetworkRequestMonitoring()
+  When the page fully loads                                                                        # com.pwg.automation.steps.SecuritySteps.pageFullyLoads()
+  Then all resources (CSS, JS, fonts) are served from localhost                                    # com.pwg.automation.steps.SecuritySteps.allResourcesFromLocalhost()
+  And no requests are made to any external domain (e.g., cdn.*, googleapis.*, etc.)                # com.pwg.automation.steps.SecuritySteps.noExternalDomainRequests()
+
+@security @TC-SEC-06
+Scenario: Character selection uses rejection sampling for uniform distribution                     # src/test/resources/features/security.feature:56
+Jun 19, 2026 12:37:43 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:43 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"                  # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                                  # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  And browser network monitoring is active (via browser devtools / WebDriver network interception) # com.pwg.automation.steps.SecuritySteps.networkMonitoringActive()
+  When the JavaScript source of generator.js is inspected                                          # com.pwg.automation.steps.SecuritySteps.inspectGeneratorJs()
+  Then the secureRandom function uses rejection sampling logic                                     # com.pwg.automation.steps.SecuritySteps.secureRandomUsesRejectionSampling()
+  And the code calculates "limit = 4294967296 - (4294967296 % max)" or equivalent                  # com.pwg.automation.steps.SecuritySteps.codeCalculatesRejectionFormula(java.lang.String)
+  And values exceeding the limit are discarded and regenerated                                     # com.pwg.automation.steps.SecuritySteps.valuesExceedingLimitDiscarded()
+
+@security @TC-SEC-07
+Scenario: Generated passwords are not printed to the browser console                               # src/test/resources/features/security.feature:64
+Jun 19, 2026 12:37:45 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:45 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"                  # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                                  # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  And browser network monitoring is active (via browser devtools / WebDriver network interception) # com.pwg.automation.steps.SecuritySteps.networkMonitoringActive()
+  Given browser console monitoring is active                                                       # com.pwg.automation.steps.SecuritySteps.consoleMonitoringActive()
+  When the user generates 5 passwords                                                              # com.pwg.automation.steps.SecuritySteps.generateMultiplePasswords(int)
+  Then no console.log, console.info, or console.debug statements output the password values        # com.pwg.automation.steps.SecuritySteps.noConsoleLogWithPassword()
+
+@security @TC-SEC-08
+Scenario: Application does not use deprecated or insecure browser APIs                               # src/test/resources/features/security.feature:71
+Jun 19, 2026 12:37:47 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:47 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"                    # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                                    # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  And browser network monitoring is active (via browser devtools / WebDriver network interception)   # com.pwg.automation.steps.SecuritySteps.networkMonitoringActive()
+  When the application JavaScript source is reviewed                                                 # com.pwg.automation.steps.SecuritySteps.reviewJsSource()
+  Then no usage of deprecated crypto APIs (e.g., window.crypto.getRandomValues via ActiveX) is found # com.pwg.automation.steps.SecuritySteps.noDeprecatedCryptoApis()
+  And no eval() or innerHTML assignments with generated password content are present                 # com.pwg.automation.steps.SecuritySteps.noEvalOrInnerHtmlWithPassword()
+
+@strength @TC-STR-01 @TC-STR-02 @TC-STR-03 @TC-STR-04
+Scenario Outline: Strength label reflects entropy thresholds                      # src/test/resources/features/strength.feature:23
+Jun 19, 2026 12:37:48 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:48 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 8                                             # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  And the charset configuration is "lowercase only"                               # com.pwg.automation.steps.StrengthSteps.setCharsetConfiguration(java.lang.String)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the strength label shows "Weak"                                            # com.pwg.automation.steps.StrengthSteps.strengthLabelShows(java.lang.String)
+  And the strength fill bar color reflects the "Weak" state                       # com.pwg.automation.steps.StrengthSteps.fillBarColorReflects(java.lang.String)
+
+@strength @TC-STR-01 @TC-STR-02 @TC-STR-03 @TC-STR-04
+Scenario Outline: Strength label reflects entropy thresholds                      # src/test/resources/features/strength.feature:24
+Jun 19, 2026 12:37:50 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:50 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 12                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  And the charset configuration is "lowercase and numbers"                        # com.pwg.automation.steps.StrengthSteps.setCharsetConfiguration(java.lang.String)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the strength label shows "Medium"                                          # com.pwg.automation.steps.StrengthSteps.strengthLabelShows(java.lang.String)
+  And the strength fill bar color reflects the "Medium" state                     # com.pwg.automation.steps.StrengthSteps.fillBarColorReflects(java.lang.String)
+
+@strength @TC-STR-01 @TC-STR-02 @TC-STR-03 @TC-STR-04
+Scenario Outline: Strength label reflects entropy thresholds                      # src/test/resources/features/strength.feature:25
+Jun 19, 2026 12:37:51 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:51 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 16                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  And the charset configuration is "all four charsets"                            # com.pwg.automation.steps.StrengthSteps.setCharsetConfiguration(java.lang.String)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the strength label shows "Strong"                                          # com.pwg.automation.steps.StrengthSteps.strengthLabelShows(java.lang.String)
+  And the strength fill bar color reflects the "Strong" state                     # com.pwg.automation.steps.StrengthSteps.fillBarColorReflects(java.lang.String)
+
+@strength @TC-STR-01 @TC-STR-02 @TC-STR-03 @TC-STR-04
+Scenario Outline: Strength label reflects entropy thresholds                      # src/test/resources/features/strength.feature:26
+Jun 19, 2026 12:37:52 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:52 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 32                                            # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  And the charset configuration is "all four charsets"                            # com.pwg.automation.steps.StrengthSteps.setCharsetConfiguration(java.lang.String)
+  When the user clicks the "Generate" button                                      # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then the strength label shows "Very Strong"                                     # com.pwg.automation.steps.StrengthSteps.strengthLabelShows(java.lang.String)
+  And the strength fill bar color reflects the "Very Strong" state                # com.pwg.automation.steps.StrengthSteps.fillBarColorReflects(java.lang.String)
+
+@strength @TC-STR-05
+Scenario: Strength fill bar width increases as password strength increases        # src/test/resources/features/strength.feature:30
+Jun 19, 2026 12:37:53 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:53 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given a password is generated with length=8 and lowercase only                  # com.pwg.automation.steps.StrengthSteps.generatePasswordWeakConfig()
+  And the fill bar width is recorded as "weak_width"                              # com.pwg.automation.steps.StrengthSteps.recordFillBarWidth(java.lang.String)
+  When a new password is generated with length=32 and all charsets ON             # com.pwg.automation.steps.StrengthSteps.generatePasswordStrongConfig(int)
+  Then the fill bar width is greater than "weak_width"                            # com.pwg.automation.steps.StrengthSteps.fillBarWidthGreaterThan(java.lang.String)
+  And the fill bar width represents a higher entropy percentage                   # com.pwg.automation.steps.StrengthSteps.fillBarRepresentsHigherEntropy()
+
+@strength @TC-STR-06
+Scenario: Entropy value in bits is displayed in the UI                                         # src/test/resources/features/strength.feature:39
+Jun 19, 2026 12:37:55 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:55 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"              # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                              # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the length slider is set to 16                                                         # com.pwg.automation.steps.CommonSteps.setLengthSlider(int)
+  And all four character sets are ON                                                           # com.pwg.automation.steps.StrengthSteps.allFourCharacterSetsOn()
+  When the user clicks the "Generate" button                                                   # com.pwg.automation.steps.CommonSteps.clickButton(java.lang.String)
+  Then an entropy value in bits is displayed in the UI (entropy label is visible and non-zero) # com.pwg.automation.steps.StrengthSteps.entropyValueDisplayed()
+
+@strength @TC-STR-07
+Scenario: Strength meter updates when length slider is changed                      # src/test/resources/features/strength.feature:47
+Jun 19, 2026 12:37:56 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:56 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000"   # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                   # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given the charset configuration is "lowercase only"                               # com.pwg.automation.steps.StrengthSteps.setCharsetConfiguration(java.lang.String)
+  And the length slider is set to 8 (Weak)                                          # com.pwg.automation.steps.CommonSteps.setLengthSliderWithLabel(int,java.lang.String)
+  And the strength label shows "Weak"                                               # com.pwg.automation.steps.StrengthSteps.strengthLabelShows(java.lang.String)
+  When the user moves the length slider to 32                                       # com.pwg.automation.steps.StrengthSteps.moveLengthSlider(int)
+  Then the strength label updates to "Strong" or "Very Strong" without regenerating # com.pwg.automation.steps.StrengthSteps.strengthLabelUpdatesTo(java.lang.String,java.lang.String)
+
+@strength @TC-STR-08
+Scenario: Strength meter updates when character sets are toggled                  # src/test/resources/features/strength.feature:56
+Jun 19, 2026 12:37:57 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 149
+Jun 19, 2026 12:37:57 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 149.0.4022.69. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  Given the user has opened the Password Generator app at "http://localhost:3000" # com.pwg.automation.steps.CommonSteps.openApp(java.lang.String)
+  And the Generator tab is active                                                 # com.pwg.automation.steps.CommonSteps.generatorTabActive()
+  Given only Lowercase is ON and length is 14 (Medium strength)                   # com.pwg.automation.steps.StrengthSteps.setLowercaseOnlyWithStrengthLabel(int)
+  When the user turns ON all four character sets                                  # com.pwg.automation.steps.StrengthSteps.turnOnAllCharsets()
+  Then the strength label updates to "Strong" or "Very Strong"                    # com.pwg.automation.steps.StrengthSteps.strengthLabelUpdates(java.lang.String,java.lang.String)
+  And the fill bar width increases                                                # com.pwg.automation.steps.StrengthSteps.fillBarWidthIncreases()
+[ERROR] Tests run: 69, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 93.34 s <<< FAILURE! -- in com.pwg.automation.runner.TestRunner
+[ERROR] Bulk Generation Tab � Generate Multiple Passwords.Bulk passwords contain only uppercase when only Uppercase is selected -- Time elapsed: 1.350 s <<< FAILURE!
+java.lang.AssertionError: Bulk count mismatch expected:<5> but was:<0>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at com.pwg.automation.steps.BulkSteps.allBulkPasswordsUppercase(BulkSteps.java:95)
+	at ?.all 5 generated passwords contain only uppercase characters (A-Z)(file:///C:/Jenkins/workspace/PWG-Automation/pwg-automation/src/test/resources/features/bulk.feature:60)
+
+[ERROR] Bulk Generation Tab � Generate Multiple Passwords.Bulk passwords respect length setting from Generator tab -- Time elapsed: 1.300 s <<< ERROR!
+org.openqa.selenium.ElementNotInteractableException: 
+element not interactable
+  (Session info: MicrosoftEdge=149.0.4022.69)
+Build info: version: '4.21.0', revision: '79ed462ef4'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Command: [e3af2d6e872ffd26cd725a861dc9b0c4, clickElement {id=f.3EA91A9A3075AA7798A7D9685DD8354B.d.5F08F730C617F6CD0F2147164BC4DA52.e.12}]
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 149.0.4022.69, fedcm:accounts: true, goog:processID: 16444, ms:edgeOptions: {debuggerAddress: localhost:54542}, msedge: {msedgedriverVersion: 149.0.4022.69 (6c7df6d8a61d..., userDataDir: C:\Users\SUBIT_~1\AppData\L...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54542/devtoo..., se:cdpVersion: 149.0.4022.69, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Element: [[EdgeDriver: MicrosoftEdge on windows (e3af2d6e872ffd26cd725a861dc9b0c4)] -> id: bulk-generate-btn]
+Session ID: e3af2d6e872ffd26cd725a861dc9b0c4
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+	at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:190)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:518)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:223)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:76)
+	at com.pwg.automation.steps.CommonSteps.clickButton(CommonSteps.java:69)
+	at ?.the user clicks the "Bulk Generate" button(file:///C:/Jenkins/workspace/PWG-Automation/pwg-automation/src/test/resources/features/bulk.feature:66)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   Bulk count mismatch expected:<5> but was:<0>
+[ERROR] Errors: 
+[ERROR]   element not interactable
+  (Session info: MicrosoftEdge=149.0.4022.69)
+Build info: version: '4.21.0', revision: '79ed462ef4'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Command: [e3af2d6e872ffd26cd725a861dc9b0c4, clickElement {id=f.3EA91A9A3075AA7798A7D9685DD8354B.d.5F08F730C617F6CD0F2147164BC4DA52.e.12}]
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 149.0.4022.69, fedcm:accounts: true, goog:processID: 16444, ms:edgeOptions: {debuggerAddress: localhost:54542}, msedge: {msedgedriverVersion: 149.0.4022.69 (6c7df6d8a61d..., userDataDir: C:\Users\SUBIT_~1\AppData\L...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54542/devtoo..., se:cdpVersion: 149.0.4022.69, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Element: [[EdgeDriver: MicrosoftEdge on windows (e3af2d6e872ffd26cd725a861dc9b0c4)] -> id: bulk-generate-btn]
+Session ID: e3af2d6e872ffd26cd725a861dc9b0c4
+[INFO] 
+[ERROR] Tests run: 69, Failures: 1, Errors: 1, Skipped: 0
+[INFO] 
+[ERROR] There are test failures.
+
+Please refer to C:\Jenkins\workspace\PWG-Automation\pwg-automation\target\surefire-reports for the individual test results.
+Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:40 min
+[INFO] Finished at: 2026-06-19T00:37:59+05:30
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Publish Reports)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] cucumber
+[CucumberReport] Using Cucumber Reports version 5.11.0
+[CucumberReport] JSON report directory is "pwg-automation/target/cucumber-reports"
+[CucumberReport] Copied 0 properties files from workspace "C:\Jenkins\workspace\PWG-Automation\pwg-automation\target\cucumber-reports" to reports directory "C:\Jenkins\jobs\PWG-Automation\builds\15\cucumber-html-reports_c6cc1787-a4ac-3eed-ba61-ed56db401c93\.cache"
+[CucumberReport] Copied 1 files from workspace "C:\Jenkins\workspace\PWG-Automation\pwg-automation\target\cucumber-reports" to reports directory "C:\Jenkins\jobs\PWG-Automation\builds\15\cucumber-html-reports_c6cc1787-a4ac-3eed-ba61-ed56db401c93\.cache"
+[CucumberReport] Processing 1 json files:
+[CucumberReport] C:\Jenkins\jobs\PWG-Automation\builds\15\cucumber-html-reports_c6cc1787-a4ac-3eed-ba61-ed56db401c93\.cache\cucumber.json
+[CucumberReport] Found 2 failed steps, while expected at most 0
+[CucumberReport] Build status is changed to UNSTABLE
+[Pipeline] publishHTML
+[htmlpublisher] Archiving HTML reports...
+[htmlpublisher] Archiving at BUILD level C:\Jenkins\workspace\PWG-Automation\pwg-automation\target\extent-reports to PWG_20Extent_20Report
+[htmlpublisher] Copying recursive using current thread
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Archive Artifacts)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline finished — Status: UNSTABLE
+[Pipeline] echo
+Tests ran but some scenarios failed — check Cucumber report.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: UNSTABLE
+
